@@ -1,0 +1,18 @@
+.formatted-text {
+    /* Define styles for lists */
+    ul {
+      margin-left: 1.5rem; /* Adjust indentation as per your design */
+      list-style-type: disc; /* Bullet style for unordered lists */
+    }
+  
+    ol {
+      margin-left: 1.5rem; /* Adjust indentation as per your design */
+      list-style-type: decimal; /* Numbering style for ordered lists */
+    }
+  
+    /* Style for list items */
+    li {
+      margin-bottom: 0.5rem; /* Adjust spacing between list items */
+    }
+  }
+  

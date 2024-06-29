@@ -4,7 +4,8 @@ import Headers from "../Utils/Header";
 import Footer from "../Utils/Footer";
 import LoginImage from '../../Images/LoginImage.jpg';
 import { useNavigate,NavLink } from "react-router-dom"; // Assuming you're using React Router
-
+import JoditEditor from "jodit-react";
+import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,6 +17,10 @@ const ContactForm = () => {
   const [subject ,setSubject] = useState('');
   const [message ,setMessage] = useState('');
 
+
+  const handleChange = (value) => {
+    setMessage(value);
+  };
   
   
   const handleSubmit = async (e) => {
@@ -92,12 +97,16 @@ const handleReset = (e) => {
               className="w-full p-2 mb-4 text-sm border-2 border-slate-300 rounded"
               required
             />
-            
+            {/* <JoditEditor
+                value={message}
+                onChange={(newContent) => setMessage(newContent)}
+                className="mb-4"
+              /> */}
             <div className="flex justify-center">
               <button type="submit" className="w-32 h-8 text-sm font-semibold bg-yellow-400 text-black border-2 border-slate-300 rounded mr-4">
                 Submit
               </button>
-              <button type="button" onClick={handleReset} className="w-32 h-8 text-sm font-semibold bg-white text-black border-2 border-slate-300 rounded">
+              <button type="button" onClick={handleReset} theme="snow" className="w-32 h-8 text-sm font-semibold bg-white text-black border-2 border-slate-300 rounded">
                 Reset
               </button>
             </div>
@@ -113,4 +122,40 @@ const handleReset = (e) => {
   );
 };
 
+const modules = {
+  toolbar: [
+    [{ header: '1' }, { header: '2' }, { font: [] }],
+    [{ size: [] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [
+      { list: 'ordered' },
+      { list: 'bullet' },
+      { indent: '-1' },
+      { indent: '+1' },
+    ],
+    ['link', 'image', 'video'],
+    ['clean'],
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false,
+  },
+}
+
+  const formats = [
+      'header',
+      'font',
+      'size',
+      'bold',
+      'italic',
+      'underline',
+      'strike',
+      'blockquote',
+      'list',
+      'bullet',
+      'indent',
+      'link',
+      'image',
+      'video',
+    ]
 export default ContactForm;

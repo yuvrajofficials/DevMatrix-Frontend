@@ -22,8 +22,9 @@ import AdminTodolist from "./Components/AdminFiles/AdminTodolist";
 import AdminUploadCourse from "./Components/AdminFiles/AdminUploadVIdeo";
 import AdminUploadVideo from "./Components/AdminFiles/AdminUploadVIdeo";
 import AdminCreateCourse from "./Components/AdminFiles/AdminCreateCourse";
-import PaymentsPage from "./Components/Utils/Payments";
+import PaymentsPage from "./Components/Utils2/Payments";
 import DetailsPage from "./Components/Utils2/DetailsPage";
+import BlogDetails from "./Components/Utils2/BlogDetails";
 
 
 const App = () => {
@@ -42,6 +43,7 @@ const App = () => {
           {/* other utility routes */}
           <Route exact path="/courses/detailspage" element={<DetailsPage />} />
           <Route exact path="/courses/detailspage/payments" element={<PaymentsPage />} />
+          <Route exact path="/blog/blog-details" element={<BlogDetails />} />
 
           
 

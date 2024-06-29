@@ -10,11 +10,11 @@ const AdminUploadVideo = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isPublished, setIsPublished] = useState(false);
-  const [owner, setOwner] = useState('');
   const [creator, setCreator] = useState('');
   const [videoFile, setVideoFile] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState('');
+  const [owner, setOwner] = useState('');
   const [loginData, setLoginData] = useState({});
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
