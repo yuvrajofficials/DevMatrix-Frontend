@@ -116,17 +116,8 @@ const AdminCreateCourse = () => {
 
   return (
     <>
-      <AdminDashboardTop />
-      <div className="flex">
-        <section className=" w-48 border-2 border-grey-500 h-screen">
-          <AdminDashboardSide />
-        </section>
-        <div className="main-admin-component w-full">
-          <div className="bg-gray-100 min-h-full p-5">
-            <div className="h-full py-2 mx-auto bg-white shadow-md rounded-lg">
-              <div className="p-4 border-b border-gray-200">
-                <h2 className="text-2xl font-semibold text-gray-700">Create Course</h2>
-              </div>
+        <section>
+       
               <div className="divide-y divide-gray-200">
               {loading ? (
                   <div className="flex justify-center items-center h-full">
@@ -216,10 +207,7 @@ const AdminCreateCourse = () => {
                 </form>
                 )} */}
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </section>
       <ToastContainer />
     </>
   );

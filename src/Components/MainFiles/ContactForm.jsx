@@ -26,7 +26,7 @@ const ContactForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = { name, email, subject, message };
-    const backendUrl = 'http://localhost:8085'
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
     try {
       const response = await axios.post(`${backendUrl}/api/v1/users/save-notification`, {name, email, subject, message});
       toast.success("We got your message ", { position: "bottom-right" });
@@ -52,6 +52,8 @@ const handleReset = (e) => {
       <div className="min-h-screen p-2 flex">
         <div className="flex-1 flex items-center justify-center">
           <div className="w-full max-w-md mx-auto">
+          
+        <h1 className="text-3xl text-gray-700 font-bold mb-4 lg:mb-0 lg:text-left">Contact Us</h1>
             <img src={LoginImage} alt="Online Teaching" className="rounded-lg shadow-lg border-4 border-yellow-200"/>
           </div>
         </div>

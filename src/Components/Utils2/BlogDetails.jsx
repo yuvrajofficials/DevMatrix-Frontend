@@ -30,7 +30,7 @@ const BlogDetails = () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/${blog._id}`);
       setComments(response.data[0].comments || []);
-      console.log(response.data)
+      console.log(response.data);
       setBlogData(response.data[0]);
     } catch (error) {
       console.error('Error fetching blog details:', error);
@@ -54,7 +54,7 @@ const BlogDetails = () => {
         }
       );
       setComment('');
-      // fetchBlogDetails(); // Refresh the comments after adding a new comment
+      fetchBlogDetails(); // Refresh the comments after adding a new comment
     } catch (error) {
       console.error('Error saving comment:', error);
     }
@@ -85,22 +85,6 @@ const BlogDetails = () => {
         {/* Comments Section */}
         <div className="my-8">
           <h2 className="text-2xl font-semibold mb-4">Comments</h2>
-          {comments.length === 0 && <p className="text-gray-500">No comments yet. Be the first to comment!</p>}
-          {comments.map((comment, index) => (
-            <div key={index} className="mb-4 p-4 border rounded-lg">
-              <div className="flex items-center mb-2">
-                <img 
-                  src={blogData.result.find(user => user._id === comment.user)?.avatar}
-                  alt={blogData.result.find(user => user._id === comment.user)?.username}
-                  className="w-10 fit h-10 rounded-full mr-2"
-                />
-                <p className="font-semibold">{blogData.result.find(user => user._id === comment.user)?.username}</p>
-              </div>
-              <p>{comment.text || comment.comment}</p>
-              <p className="text-gray-500 text-sm">Posted on: {new Date(comment.date).toLocaleString()}</p>
-            </div>
-          ))}
-        </div>
 
         {/* Add Comment Form */}
         <form className="my-4">
@@ -111,13 +95,13 @@ const BlogDetails = () => {
             rows={5}
             placeholder="Share your experience..."
           />
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-end mt-4">
             <button
               type="button"
               onClick={handleComment}
-              className="w-32 h-8 text-sm font-semibold bg-yellow-400 text-black border-2 border-slate-300 rounded mr-4"
+              className="w-32 h-8 text-sm font-semibold bg-gradient-to-r from-yellow-100 to-yellow-300 text-black border-2 border-slate-300 rounded mr-4"
             >
-              Submit
+              Comment
             </button>
             <button
               type="button"
@@ -128,6 +112,25 @@ const BlogDetails = () => {
             </button>
           </div>
         </form>
+          {comments.length === 0 && <p className="text-gray-500">No comments yet. Be the first to comment!</p>}
+          {comments.map((commentData, index) => (
+            <div key={index} className="mb-4 px-4 py-2 border rounded-lg">
+              <div className="flex items-center mb-2">
+                <img
+                  src={commentData.userDetails.avatar || 'default-avatar-url'} // Provide a default avatar URL if none is present
+                  alt={commentData.userDetails.username}
+                  className="w-10 h- border-1 rounded-full mr-2"
+                />
+                  <p className="font-semibold">{commentData.userDetails.username}</p>
+                <div className='flex justify-content-end'>
+                  <p className="text-gray-500  text-sm ">Posted on: {new Date(commentData.comment.date).toLocaleString().split(',')[0]}</p>
+
+                </div>
+              </div>
+              <p>{commentData.comment.text || commentData.comment.comment}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

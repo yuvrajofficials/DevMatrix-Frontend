@@ -60,7 +60,7 @@ const BlogsSection = () => {
             placeholder="Search for a blog..."
           />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 px-32 lg:grid-cols-3 gap-6">
           {filterBlogs.map((blog, index) => (
             <div
               key={index}

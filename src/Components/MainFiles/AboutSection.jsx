@@ -12,7 +12,7 @@ const AboutSection = () => {
       <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-md">
         <h1 className="text-3xl font-bold mb-4 text-center text-gray-800">About Us</h1>
         <p className="text-base mb-6 text-gray-700 leading-relaxed">
-          Welcome to <span className="font-semibold">[Website Name]</span>, your premier online teaching platform dedicated to providing top-notch educational resources and comprehensive courses to learners around the globe. We are passionate about empowering individuals through knowledge and education, making learning both accessible and enjoyable.
+          Welcome to <span className="font-semibold">DevMatrix</span>, your premier online teaching platform dedicated to providing top-notch educational resources and comprehensive courses to learners around the globe. We are passionate about empowering individuals through knowledge and education, making learning both accessible and enjoyable.
         </p>
 
         <h2 className="text-2xl font-semibold mb-3 text-gray-800">Our Mission</h2>

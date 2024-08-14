@@ -60,7 +60,7 @@ const Headers = () => {
   return (
     <>
       <header>
-        <div className="flex w-full ">
+        <div className="flex w-full  ">
           <div className="flex-none w-1/5 flex justify-center items-center">
             <img className="w-2/3 p-2" src={DevMatrix_Logo} alt="DevMatrix" />
           </div>

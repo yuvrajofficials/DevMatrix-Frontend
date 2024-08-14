@@ -3,9 +3,15 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import LoginForm from '../Utils/LoginForm';
 
 const UserAuth = () => {
-    const [isTeacher,setTeacher]=useState(1);
- 
-      if(isTeacher===1){
+  const isUser = JSON.parse(localStorage.getItem("setLoginInfo"));
+  
+      if(isUser.logintype===2){
+      return <Outlet/>
+      }
+      else if(isUser.logintype===1){
+      return <Outlet/>
+      }
+      else if(isUser.logintype==0){
       return <Outlet/>
       }
       return <LoginForm/>

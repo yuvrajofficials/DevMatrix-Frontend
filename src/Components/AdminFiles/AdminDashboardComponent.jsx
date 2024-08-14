@@ -1,6 +1,7 @@
 import React from "react";
 import DevMatrix_Logo from "../../Images/DevMatrix_Logo.png";
 import { useNavigate } from "react-router-dom";
+import LogoutButton from "../Utils/Logout";
 
 export const AdminDashboardSide = (props) => {
   const navigate = useNavigate();
@@ -17,16 +18,13 @@ export const AdminDashboardSide = (props) => {
         navigate("/admin/notifications");
         break;
       case 4:
-        navigate("/admin/to-do-list");
+        navigate("/admin/my-team");
         break;
 
       case 5:
-        navigate("/admin/upload-video");
+        navigate("/admin/course-management");
         break;
 
-      case 6:
-        navigate("/admin/create-course");
-        break;
 
       default:
         navigate("/admin/to-do-list");
@@ -63,19 +61,18 @@ export const AdminDashboardSide = (props) => {
                 className=" py-4 hover:bg-yellow-300 p-4 "
                 onClick={() => navigateTo(4)}
               >
-                To do List
+                My Team
               </li>
               <li
                 className=" py-4 hover:bg-yellow-300 p-4 "
                 onClick={() => navigateTo(5)}
               >
-                Upload Video
+                Course Management
               </li>
               <li
                 className=" py-4 hover:bg-yellow-300 p-4 "
-                onClick={() => navigateTo(6)}
+                onClick={() => navigateTo(7)}
               >
-                Create Course
               </li>
             </ul>
          
@@ -86,15 +83,26 @@ export const AdminDashboardSide = (props) => {
 };
 
 export const AdminDashboardTop = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () =>{
+    navigate('/logout')
+  }
 
   return (
     <div>
       <navbar>
         <header>
-          <section className="bg-yellow-400 w-full h-16">
+          <section className="bg-gradient-to-r from-yellow-200 to-yellow-400 w-full h-16">
+          <div className="flex justify-content-between">
+
+
             <img src={DevMatrix_Logo} className="h-10 p-1" />
+          <button type="button" className="px-2 m-4 rounded border-2 bg-white border-grey-800" onClick={handleLogout}>
+          Log Out
+          </button>
+          </div>
           </section>
-        
         </header>
       </navbar>
     </div>

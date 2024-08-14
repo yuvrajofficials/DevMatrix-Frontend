@@ -31,7 +31,7 @@ const AdminUploadVideo = () => {
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const backendUrl = 'http://localhost:8085';
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
       try {
         const response = await axios.post(
           `${backendUrl}/api/v1/teacher/get-mycourse`,
@@ -59,7 +59,7 @@ const AdminUploadVideo = () => {
     e.preventDefault();
   console.log({selectedCourse,owner})
     setLoading(true);
-    const backendUrl = 'http://localhost:8085';
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
     const formData = new FormData();
     formData.append('videoFile', videoFile);
     formData.append('thumbnail', thumbnail);
@@ -104,17 +104,7 @@ const AdminUploadVideo = () => {
 
   return (
     <>
-      <AdminDashboardTop />
-      <div className="flex">
-        <section className=".bg-black-800 w-48 border-2 border-grey-500 h-screen">
-          <AdminDashboardSide />
-        </section>
-        <div className="main-admin-component w-full">
-          <div className="bg-gray-100 h-full p-5">
-            <div className="h-auto mx-auto py-2 bg-white shadow-md rounded-lg">
-              <div className="p-4 border-b border-gray-200">
-                <h2 className="text-2xl font-semibold text-gray-700">Upload Video</h2>
-              </div>
+      
               <div className="divide-y  divide-gray-200">
                 {loading ? (
                   <div className="flex justify-center items-center h-full">
@@ -203,10 +193,7 @@ const AdminUploadVideo = () => {
                     </div>
                   </form>
                 )}
-              </div>
-            </div>
-          </div>
-        </div>
+            
       </div>
       <ToastContainer />
     </>

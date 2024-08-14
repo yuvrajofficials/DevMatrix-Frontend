@@ -120,3 +120,7 @@ navigate('/');
 };
 
 export default LoginForm;
+
+color green1 =  #01ff85
+color green2 =  #01C567
+color black = #002333

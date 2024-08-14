@@ -14,6 +14,7 @@ const AdminAuth = () => {
 if(isAdmin==2){
   return <Outlet/>
 }
+
 return <LoginForm/>
 
 }

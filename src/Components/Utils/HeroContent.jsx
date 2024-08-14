@@ -16,7 +16,7 @@ const HeroContent = () => {
           Discover personalized learning experiences designed to help you succeed. Join our community of learners and start your journey today.
         </p>
         <div className="flex space-x-4 mb-4">
-          <a href="/get-started" className="bg-gradient-to-r from-yellow-200 to-yellow-400 fw-semibold text-white px-6 py-3 rounded-full hover:bg-yellow-600 transition duration-300">
+          <a href="/courses" className="bg-gradient-to-r from-yellow-200 to-yellow-400 fw-semibold text-white px-6 py-3 rounded-full hover:bg-yellow-600 transition duration-300">
             Get Started Now
           </a>
           <a href="/learn-more" className="text-yellow-500 bg-white border border-yellow-500 fw-semibold px-6 py-3 rounded-full hover:bg-yellow-50 transition duration-300">

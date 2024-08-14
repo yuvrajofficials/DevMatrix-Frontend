@@ -21,11 +21,14 @@ const CourseSection = () => {
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const backendUrl = 'http://localhost:8085';
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
       try {
         const response = await axios.post(`${backendUrl}/api/v1/users/get-allcourse`);
+        
         setCourses(response.data.data); // Assuming the response structure has data inside data
+        alert(response.data.data)
       } catch (error) {
+        alert("course is not coming")
         console.error(error);
       }
     };
@@ -59,7 +62,7 @@ const CourseSection = () => {
             placeholder="Search for a course..."
           />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid px-32 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCourses.map((course) => (
             <div
               key={course._id}
@@ -67,9 +70,9 @@ const CourseSection = () => {
             >
               <img src={course.thumbnail} alt={course.title} className="w-full h-48 object-cover" />
               <div className="p-4">
-                <h2 className="font-bold text-lg mb-2 truncate">{course.title}</h2>
-                <div className="flex justify-between items-center mb-2">
-                  <p className="text-gray-700 text-sm truncate w-1/2">${course.price}</p>
+                <h2 className="font-bold text-truncate w-72 my-1">{course.title}</h2>
+                <div className="flex justify-between items-center ">
+                  <p className="text-gray-700 text-sm truncate w-1/2">&#x20B9; {course.price}</p>
                   <button
                     onClick={() => handlePurchaseClick(course)}
                     className="bg-gradient-to-r from-yellow-300 to-yellow-500 hover:from-yellow-400 hover:to-yellow-600 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition duration-300 ease-in-out"
@@ -77,7 +80,7 @@ const CourseSection = () => {
                     Purchase
                   </button>
                 </div>
-                <p className="text-gray-700 text-sm truncate">Instructor: {course.creator}</p>
+                <p className="text-gray-700 text- w-48 truncate">Instructor: {course.creator}</p>
               </div>
             </div>
           ))}
