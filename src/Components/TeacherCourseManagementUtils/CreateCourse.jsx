@@ -117,11 +117,10 @@ const CreateCourse = () => {
 
   return (
     <>
-    <TeacherCourseManagement>
-        <section className="flex justify-center items-center">
-       
-              <div className="divide-y divide-gray-200 ">
-              {loading ? (
+      <TeacherCourseManagement>
+        <section className="flex bg-[#C5C5C6] justify-center items-center">
+          <div className="divide-y divide-gray-200 w-2/3 rounded-lg  my-4  ">
+          {loading ? (
                   <div className="flex justify-center items-center h-full">
                     <div className="spinner-border text-primary" role="status">
                       <span className="visually-hidden">Loading...</span>
@@ -178,39 +177,9 @@ const CreateCourse = () => {
                   </div>
                 </form>
               )}
-                {/* {loading ? (
-                  <div className="flex justify-center items-center h-full">
-                    <div className="spinner-border text-primary" role="status">
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
-                    <span className="ml-2">Uploading your video, please wait...</span>
-                  </div>
-                ) : (<form >
-                  <label className="block p-2">Title</label>
-                  <input
-                    name="title"
-                    value={resourceTitle}
-                    onChange={(e) => setResourceTitle(e.target.value)}
-                    className="border-1 block border-gray-200 p-2 rounded w-full"
-                    placeholder="Title"
-                    required
-                  />
-                  <label className="block p-2">Thumbnail</label>
-                  <input type="file" name="resource" onChange={(e) => setThumbnail(e.target.files[0])} />
-
-                  <div className="flex justify-center">
-                    <button type="button" onClick={handleThumbnailUpload} className="w-32 h-8 text-sm font-semibold bg-yellow-400 text-black border-2 border-slate-300 rounded mr-4">
-                      Submit
-                    </button>
-                    <button type="button" onClick={handleReset} className="w-32 h-8 text-sm font-semibold bg-white text-black border-2 border-slate-300 rounded">
-                      Reset
-                    </button>
-                  </div>
-                </form>
-                )} */}
-              </div>
-      </section>
-      <ToastContainer />
+          </div>
+          <ToastContainer />
+        </section>
       </TeacherCourseManagement>
     </>
   );

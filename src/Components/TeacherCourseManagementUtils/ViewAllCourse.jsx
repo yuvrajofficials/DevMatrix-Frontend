@@ -55,7 +55,7 @@ const ViewAllCourse = () => {
     return (
         <>
             <TeacherCourseManagement>
-            <div className="container mx-auto px-4 py-8">
+            <div className="container bg-[#C5C5C6] h-screen mx-auto px-4 py-8">
                 <div className="mb-8 flex flex-col lg:flex-row justify-between items-center">
                     <h1 className="text-3xl font-bold mb-4 lg:mb-0 lg:text-left">Our Courses</h1>
                     <input

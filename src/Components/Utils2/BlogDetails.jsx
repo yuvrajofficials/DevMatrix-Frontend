@@ -28,7 +28,7 @@ const BlogDetails = () => {
 
   const fetchBlogDetails = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/${blog._id}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}api/v1/users/${blog._id}`);
       setComments(response.data[0].comments || []);
       console.log(response.data);
       setBlogData(response.data[0]);

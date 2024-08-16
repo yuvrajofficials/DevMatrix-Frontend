@@ -87,7 +87,9 @@ const DetailsPage = () => {
   };
 
   const handleStartCourse = () => {
-    navigate(`/courses/${course._id}`);
+    // navigate(`/courses/${course._id}`);
+    navigate('/courses/detailspage/payments', { state: { course } }) 
+    
   };
 
 
@@ -103,13 +105,13 @@ const DetailsPage = () => {
                 <img
                   src={course.thumbnail || 'https://res.cloudinary.com/dwq5shjnh/image/upload/v1719284403/mjkyh1an04o4hl7d4ove.png'}
                   alt="Course Thumbnail"
-                  className="w-full h-48 md:h-full object-cover"
+                  className="w-full h-48 object-fit"
                 />
               </div>
 
               {/* Course Details */}
               <div className="md:w-2/3 p-4 flex flex-col justify-between">
-                <div>
+                <div> 
                   <p className="text-sm text-purple-600 uppercase">Getting Started with {course.title}</p>
                   <h2 className="text-2xl font-bold text-gray-800 mt-2">{course.title}</h2>
                   <p className="text-gray-600 mt-4">
@@ -134,7 +136,7 @@ const DetailsPage = () => {
                   <div>
 
                     <button
-                      onClick={handleStartCourse}
+                      onClick={handleAddToCart}
                       className="bg-white mx-2 w-48 h-12 hover:text-gray-500 hover:border-gray-500 text-purple-700 border-2 border-purple-700 font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
                     >
                       Add to Cart
@@ -320,7 +322,7 @@ const AboutTutor = ({ course }) => {
     <>
       {
         <>
-          <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-pink-400 to-orange-400 h-24">
+          <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-purple-400 to-blue-400 h-24">
             <div className="bg-white rounded-lg z-10 shadow-lg p-6 w-80">
               <div className="flex justify-center">
                 <img

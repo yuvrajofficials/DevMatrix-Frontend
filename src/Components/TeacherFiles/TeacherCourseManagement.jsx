@@ -4,7 +4,7 @@ import CreateCourse from '../ComponentManagement/CreateCourse'
 import { NavLink } from 'react-router-dom';
 import { IoSettings,IoCloseCircleSharp  } from 'react-icons/io5';
 import { FaCirclePlus,FaCircl } from "react-icons/fa6";
-import { FaEdit  } from "react-icons/fa";
+import { FaEdit, FaUpload  } from "react-icons/fa";
 import { RiGalleryView2 } from 'react-icons/ri';
 import { MdCreateNewFolder } from 'react-icons/md';
 
@@ -76,7 +76,7 @@ const ManagementComponent = () => {
             {/* Add content for the right sidebar here */}
             <IoCloseCircleSharp className='w-8 h-8 flex text-white 'onClick={toggleRightSidebar}/>
             <NavLink
-              to="/teacher/coursemanagement/settings"
+              to="/teacher/coursemanagement/course-settings"
               className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
             >
               <IoSettings className="h-6 w-6" /> <span className="p-1">Settings</span>
@@ -98,6 +98,12 @@ const ManagementComponent = () => {
               className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
             >
               <FaEdit className="h-6 w-6" /> <span className="p-1">Edit Course</span>
+            </NavLink>
+            <NavLink
+              to="/teacher/coursemanagement/upload-video"
+              className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
+            >
+              <FaUpload className="h-6 w-6" /> <span className="p-1">Upload Video</span>
             </NavLink>
 
             {/* You can add more items here as needed */}

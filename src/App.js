@@ -54,6 +54,11 @@ import TeacherBlogManagement from "./Components/TeacherFiles/TeacherBlogManageme
 import TeacherTasks from "./Components/TeacherFiles/TeacherTasks";
 import CreateCourseTeacher from "./Components/TeacherCourseManagementUtils/CreateCourse";
 import ViewAllCourseTeacher from "./Components/TeacherCourseManagementUtils/ViewAllCourse";
+import UploadVideo from "./Components/TeacherCourseManagementUtils/UploadVIdeo";
+import CourseSettings from "./Components/TeacherCourseManagementUtils/CourseSettings";
+import EditCourse from "./Components/TeacherCourseManagementUtils/EditCourse";
+import DummyPaymentGateway from "./Components/Utils2/DummyPaymentGateway";
+
 
 const App = () => {
 
@@ -93,7 +98,7 @@ const App = () => {
 
           {/* other utility routes */}
           <Route exact path="/courses/detailspage" element={<DetailsPage />} />
-          <Route exact path="/courses/detailspage/payments" element={<PaymentsPage />} />
+          <Route exact path="/courses/detailspage/payments" element={<DummyPaymentGateway />} />
           <Route exact path="/blogs/detailspage" element={<BlogDetails />} />
 
           
@@ -131,6 +136,11 @@ const App = () => {
             <Route path="coursemanagement" element={<TeacherCourseManagement />} />
             <Route path="coursemanagement/create-course" element={<CreateCourseTeacher />} />
             <Route path="coursemanagement/view-all-course" element={<ViewAllCourseTeacher />} />
+            <Route path="coursemanagement/upload-video" element={<UploadVideo />} />
+            <Route path="coursemanagement/course-settings" element={<CourseSettings />} />
+            <Route path="coursemanagement/edit-course" element={<EditCourse />} />
+
+
 
           </Route>
 
@@ -143,8 +153,7 @@ const App = () => {
             <Route path="to-do-list" element={<AdminTodolist />} />
             <Route path="upload-video" element={<AdminUploadVideo />} />
             <Route path="course-management" element={<AdminCourseManager />} />
-            <Route path="my-team" element={<MyTeam />} />
-            
+            <Route path="my-team" element={<MyTeam />} />            
           </Route>
         </Routes>
       </BrowserRouter>

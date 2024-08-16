@@ -97,7 +97,7 @@ const TeacherDashboardHeader = ({ children }) => {
           </aside>
 
           {/* Main Content */}
-          <main className={`flex-1 p-4 bg-white overflow-y-auto ${isSidebarOpen ? 'ml-48' : 'ml-0 md:ml-48'} h-[calc(100vh-5rem)]`}>
+          <main className={`flex-1 bg-white overflow-y-auto ${isSidebarOpen ? 'ml-48' : 'ml-0 md:ml-48'} h-[calc(100vh-5rem)]`}>
             {children}
           </main>
         </div>
