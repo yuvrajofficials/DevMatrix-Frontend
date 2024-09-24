@@ -7,7 +7,18 @@ module.exports = {
       'xl': {'min': '1280px', 'max': '1535px'},
       '2xl': {'min': '1536px'},
     },
+    extend: {
+      keyframes: {
+        slide: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+      },
+      animation: {
+        slide: 'slide 20s linear infinite',
+      },
   },
+},
   variants: {},
   plugins: [],
 }

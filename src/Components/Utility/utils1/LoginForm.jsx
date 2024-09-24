@@ -35,7 +35,7 @@ const LoginForm = () => {
         if (getLoginInfo.logintype === 0) {
           navigate("/");
         } else if (getLoginInfo.logintype === 1) {
-          navigate("/user/dashboard");
+          navigate("/teacher/dashboard");
         } else if (getLoginInfo.logintype === 2) {
           navigate("/admin/home");
         }

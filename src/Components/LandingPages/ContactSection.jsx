@@ -11,7 +11,7 @@ import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const ContactForm = () => {
+const ContactSection = () => {
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -163,4 +163,4 @@ const formats = [
   'image',
   'video',
 ]
-export default ContactForm;
+export default ContactSection;

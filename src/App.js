@@ -1,29 +1,19 @@
 import React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 
-import HeroSection from "./Components/MainFiles/HeroSection";
+import HomeSection from "./Components/LandingPages/HomeSection";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import ContactForm from "./Components/MainFiles/ContactForm";
-import ContactForm from "./Components/LandingPages/ContactSection"
-
+import ContactSection from "./Components/LandingPages/ContactSection"
 import AboutSection from "./Components/LandingPages/AboutusSection";
-import AboutSection2 from "./Components/MainFiles/AboutSection";
-
-// import CourseSection from "./Components/MainFiles/CourseSection";
 import CourseSection from "./Components/LandingPages/CourseSection";
-
-// import BlogsSection from "./Components/MainFiles/BlogsSection";
 import BlogsSection from "./Components/LandingPages/BlogSection";
-import CreateAccount from "./Components/Utils/CreateAccount";
 import LoginForm from "./Components/Utility/utils1/LoginForm";
 import UserDashboard from "./Components/UserFiles/UserDashboard";
 import AdminAuth from "./Components/AdminFiles/AdminAuth";
 import PageNotFound from "./Components/Utils/PageNotFound";
-import { StoreAdmin } from "./Components/AdminFiles/StoreAdmin";
 import UserAuth from "./Components/UserFiles/UserAuth";
 import LogoutButton from "./Components/Utils/Logout";
 import AdminHome from "./Components/AdminFiles/AdminHome";
-import CheckStatus from "./Components/Utils/CheckStatus";
 import AdminDashboard from "./Components/AdminFiles/AdminDashboard";
 import AdminNotifications from "./Components/AdminFiles/AdminNotifications";
 import AdminTodolist from "./Components/AdminFiles/AdminTodolist";
@@ -37,7 +27,6 @@ import OfflineComponent from "./Components/Utils2/OfflineComponent";
 import MyTeam from "./Components/AdminFiles/MyTeam";
 import AdminCourseManager from "./Components/AdminFiles/AdminCourse";
 import ReviewsForm from "./Components/Utils/ReviewsForm";
-import Landingpage from "./Components/Developement/Landingpage";
 import RegisterUser from "./Components/Utility/utils1/RegisterUser";
 import UserProfile from "./Components/UserFiles/UserProfile";
 import UserMyCourses from "./Components/UserFiles/UserMyCourses";
@@ -58,6 +47,9 @@ import UploadVideo from "./Components/TeacherCourseManagementUtils/UploadVIdeo";
 import CourseSettings from "./Components/TeacherCourseManagementUtils/CourseSettings";
 import EditCourse from "./Components/TeacherCourseManagementUtils/EditCourse";
 import DummyPaymentGateway from "./Components/Utils2/DummyPaymentGateway";
+import CreateModule from "./Components/TeacherCourseManagementUtils/CreateModule";
+import MyCourseLanding from "./Components/MyLearning/MyCourseLanding";
+import MyLearningGallery from "./Components/MyLearning/MyLearningGallery";
 
 
 const App = () => {
@@ -81,88 +73,94 @@ const App = () => {
   return (
     <>
 
-    { isOnline ? <>
-      <BrowserRouter>
-        <Routes>
-          {/* main content */}
-          <Route exact path="/" element={<Landingpage />} />
-          <Route exact path="/home" element={<HeroSection />} />
-          <Route exact path="/contact" element={<ContactForm />} />
-          <Route exact path="/about" element={<AboutSection />} />
-          <Route exact path="/aboutold" element={<AboutSection2 />} />
+      {isOnline ? <>
+        <BrowserRouter>
+          <Routes>
+            {/* main content */}
+            <Route exact path="/" element={<HomeSection />} />
+            <Route exact path="/home" element={<HomeSection />} />
+            <Route exact path="/contact" element={<ContactSection />} />
+            <Route exact path="/about" element={<AboutSection />} />
 
-          <Route exact path="/courses" element={<CourseSection />} />
-          <Route exact path="/blogs" element={<BlogsSection />} />
-          <Route exact path="/share-reviews" element={<ReviewsForm />} />
-
-
-          {/* other utility routes */}
-          <Route exact path="/courses/detailspage" element={<DetailsPage />} />
-          <Route exact path="/courses/detailspage/payments" element={<DummyPaymentGateway />} />
-          <Route exact path="/blogs/detailspage" element={<BlogDetails />} />
-
-          
-
-          {/* pages */}
-          <Route exact path="/login" element={<LoginForm />} />
-          <Route exact path="/register" element={<RegisterUser/>} />
-          <Route exact path="/logout" element={<LogoutButton />} />
-
-          {/* page not found */}
-
-          <Route path="*" element={<PageNotFound />} />
+            <Route exact path="/courses" element={<CourseSection />} />
+            <Route exact path="/blogs" element={<BlogsSection />} />
+            <Route exact path="/share-reviews" element={<ReviewsForm />} />
 
 
-          {/* authentified routes */}
-          <Route path="/user" element={<UserAuth />}>
-            <Route path="dashboard" element={<UserDashboard />} />
-            <Route path="profile" element={<UserProfile />} />
-            <Route path="mycourses" element={<UserMyCourses />} />
-            <Route path="myhistory" element={<UserHistory />} />
-            <Route path="mytasks" element={<Todolist />} />
-            <Route path="notifications" element={<UserNotifications />} />
+            {/* other utility routes */}
+            <Route exact path="/courses/detailspage" element={<DetailsPage />} />
+            <Route exact path="/courses/detailspage/payments" element={<DummyPaymentGateway />} />
+            <Route exact path="/blogs/detailspage" element={<BlogDetails />} />
+            
+            
+            <Route exact path="/mylearning" element={<MyLearningGallery />} />
+            <Route exact path="/mylearning/:title/:courseId" element={<MyCourseLanding />} />
+            <Route exact path="/mylearning/:title/:courseId" element={<MyCourseLanding />} />
 
-          </Route>
-
-   {/* authentified routes */}
-   <Route path="/teacher" element={<TeacherAuth/>}>
-            <Route path="dashboard" element={<TeacherDashboard />} />
-            <Route path="profile" element={<TeacherProfile />} />
-            <Route path="blogmanagement" element={<TeacherBlogManagement />} />
-            <Route path="myhistory" element={<TeacherHistory />} />
-            <Route path="mytasks" element={<TeacherTasks />} />
-            <Route path="notifications" element={<TeacherNotifications />} />
-            {/* course management route */}
-            <Route path="coursemanagement" element={<TeacherCourseManagement />} />
-            <Route path="coursemanagement/create-course" element={<CreateCourseTeacher />} />
-            <Route path="coursemanagement/view-all-course" element={<ViewAllCourseTeacher />} />
-            <Route path="coursemanagement/upload-video" element={<UploadVideo />} />
-            <Route path="coursemanagement/course-settings" element={<CourseSettings />} />
-            <Route path="coursemanagement/edit-course" element={<EditCourse />} />
+            
 
 
+            {/* pages */}
+            <Route exact path="/login" element={<LoginForm />} />
+            <Route exact path="/register" element={<RegisterUser />} />
+            <Route exact path="/logout" element={<LogoutButton />} />
 
-          </Route>
+            {/* page not found */}
+
+            <Route path="*" element={<PageNotFound />} />
 
 
-          {/* authentified routes */}
-          <Route path="/admin" element={<AdminAuth />}>
-            <Route path="home" element={<AdminHome />} />
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="notifications" element={<AdminNotifications/>} />
-            <Route path="to-do-list" element={<AdminTodolist />} />
-            <Route path="upload-video" element={<AdminUploadVideo />} />
-            <Route path="course-management" element={<AdminCourseManager />} />
-            <Route path="my-team" element={<MyTeam />} />            
-          </Route>
-        </Routes>
-      </BrowserRouter>
+            {/* authentified routes */}
+            <Route path="/user" element={<UserAuth />}>
+              <Route path="dashboard" element={<UserDashboard />} />
+              <Route path="profile" element={<UserProfile />} />
+              <Route path="mycourses" element={<UserMyCourses />} />
+              <Route path="myhistory" element={<UserHistory />} />
+              <Route path="mytasks" element={<Todolist />} />
+              <Route path="notifications" element={<UserNotifications />} />
+
+            </Route>
+
+            {/* authentified routes */}
+            <Route path="/teacher" element={<TeacherAuth />}>
+              <Route path="dashboard" element={<TeacherDashboard />} />
+              <Route path="profile" element={<TeacherProfile />} />
+              <Route path="blogmanagement" element={<TeacherBlogManagement />} />
+              <Route path="myhistory" element={<TeacherHistory />} />
+              <Route path="mytasks" element={<TeacherTasks />} />
+              <Route path="notifications" element={<TeacherNotifications />} />
+              {/* course management route */}
+              <Route path="coursemanagement" element={<TeacherCourseManagement />} />
+              <Route path="coursemanagement/create-course" element={<CreateCourseTeacher />} />
+              <Route path="coursemanagement/view-all-course" element={<ViewAllCourseTeacher />} />
+              <Route path="coursemanagement/upload-video" element={<UploadVideo />} />
+              <Route path="coursemanagement/course-settings" element={<CourseSettings />} />
+              <Route path="coursemanagement/edit-course" element={<EditCourse />} />
+              <Route path="coursemanagement/create-modules" element={<CreateModule />} />
+
+
+
+            </Route>
+
+
+            {/* authentified routes */}
+            <Route path="/admin" element={<AdminAuth />}>
+              <Route path="home" element={<AdminHome />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="notifications" element={<AdminNotifications />} />
+              <Route path="to-do-list" element={<AdminTodolist />} />
+              <Route path="upload-video" element={<AdminUploadVideo />} />
+              <Route path="course-management" element={<AdminCourseManager />} />
+              <Route path="my-team" element={<MyTeam />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
       </>
-      :
-      <>
-      <OfflineComponent/>
-      </>
-    }
+        :
+        <>
+          <OfflineComponent />
+        </>
+      }
     </>
   );
 };

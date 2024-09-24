@@ -7,6 +7,7 @@ import { FaCirclePlus,FaCircl } from "react-icons/fa6";
 import { FaEdit, FaUpload  } from "react-icons/fa";
 import { RiGalleryView2 } from 'react-icons/ri';
 import { MdCreateNewFolder } from 'react-icons/md';
+import { VscFileSubmodule } from 'react-icons/vsc';
 
 const TeacherCourseManagement = ({children}) => {
 
@@ -105,7 +106,13 @@ const ManagementComponent = () => {
             >
               <FaUpload className="h-6 w-6" /> <span className="p-1">Upload Video</span>
             </NavLink>
-
+            <NavLink
+              to="/teacher/coursemanagement/create-modules"
+              className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
+            >
+              <VscFileSubmodule className="h-6 w-6" /> <span className="p-1">Create Module</span>
+            </NavLink>
+           
             {/* You can add more items here as needed */}
           </aside>
     </div>

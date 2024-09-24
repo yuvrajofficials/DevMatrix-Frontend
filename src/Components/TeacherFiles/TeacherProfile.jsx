@@ -1,10 +1,15 @@
 import React from 'react'
 
+import TeacherDashboardHeader from "./TeacherDashboardHeader"
+
+
 const TeacherProfile = () => {
   return (
-    <div>
-      teac
-    </div>
+    <>
+    <TeacherDashboardHeader>
+      
+    </TeacherDashboardHeader>
+  </>
   )
 }
 

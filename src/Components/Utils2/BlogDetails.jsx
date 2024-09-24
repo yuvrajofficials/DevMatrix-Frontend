@@ -30,7 +30,6 @@ const BlogDetails = () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}api/v1/users/${blog._id}`);
       setComments(response.data[0].comments || []);
-      console.log(response.data);
       setBlogData(response.data[0]);
     } catch (error) {
       console.error('Error fetching blog details:', error);
@@ -54,85 +53,101 @@ const BlogDetails = () => {
         }
       );
       setComment('');
-      fetchBlogDetails(); // Refresh the comments after adding a new comment
+      fetchBlogDetails();
     } catch (error) {
       console.error('Error saving comment:', error);
     }
   };
 
   if (!blogData) {
-    return <p>Blog data not found</p>;
+    return <p className="text-center text-gray-500">Blog data not found</p>;
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-4xl font-bold mb-4 text-center">{blogData.title}</h1>
-        <div className="flex justify-between m-2">
-          <p className="text-gray-500 text-base">Author: {blogData.author}</p>
-          <p className="text-gray-500 text-base">Published on: {new Date(blogData.publishedDate).toLocaleDateString()}</p>
+    // <div className="container mx-auto px-4 py-10 bg-gray-100">
+      <div className="w-full m-2  bg-gray-200 rounded-lg shadow-lg grid lg:grid-cols-3 gap-8">
+        
+        {/* Blog Content */}
+        <div className="lg:col-span-2 bg-[#f9fafb] p-6 rounded-lg shadow-md">
+          <h1 className="text-5xl font-bold mb-6 text-gray-800">{blogData.title}</h1>
+
+          <div className="flex justify-between items-center text-gray-500 mb-6">
+            <p className="text-sm">By {blogData.author}</p>
+            <p className="text-sm">{new Date(blogData.publishedDate).toLocaleDateString()}</p>
+          </div>
+
+          <div className="mb-6">
+            <img
+              src={blogData.thumbnail}
+              alt={blogData.title}
+              className="rounded-lg border-2 w-full h-96 object-cover"
+            />
+          </div>
+
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold text-gray-700">Abstract</h2>
+            <p className="mt-4 text-gray-600">{blogData.abstract}</p>
+          </div>
+
+          <div className="prose lg:prose-xl max-w-none text-gray-700" dangerouslySetInnerHTML={{ __html: blogData.description }} />
         </div>
-        <div className="flex justify-center mb-6">
-          <img src={blogData.thumbnail} alt={blogData.title} className="rounded-lg shadow-lg w-full h-auto max-h-96 object-cover" />
-        </div>
-        <div className="mb-6">
-          <h2 className="text-2xl font-semibold mb-2">Abstract</h2>
-          <p className="text-base mb-4">{blogData.abstract}</p>
-        </div>
-        <hr />
-        <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: blogData.description }} />
 
         {/* Comments Section */}
-        <div className="my-8">
-          <h2 className="text-2xl font-semibold mb-4">Comments</h2>
+        <div className="lg:col-span-1 bg-white p-6 rounded-lg shadow-md space-y-6">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">Comments</h2>
 
-        {/* Add Comment Form */}
-        <form className="my-4">
-          <textarea
-            className="w-full border-2 rounded p-2"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            rows={5}
-            placeholder="Share your experience..."
-          />
-          <div className="flex justify-end mt-4">
-            <button
-              type="button"
-              onClick={handleComment}
-              className="w-32 h-8 text-sm font-semibold bg-gradient-to-r from-yellow-100 to-yellow-300 text-black border-2 border-slate-300 rounded mr-4"
-            >
-              Comment
-            </button>
-            <button
-              type="button"
-              onClick={handleReset}
-              className="w-32 h-8 text-sm font-semibold bg-white text-black border-2 border-slate-300 rounded"
-            >
-              Reset
-            </button>
-          </div>
-        </form>
-          {comments.length === 0 && <p className="text-gray-500">No comments yet. Be the first to comment!</p>}
-          {comments.map((commentData, index) => (
-            <div key={index} className="mb-4 px-4 py-2 border rounded-lg">
-              <div className="flex items-center mb-2">
-                <img
-                  src={commentData.userDetails.avatar || 'default-avatar-url'} // Provide a default avatar URL if none is present
-                  alt={commentData.userDetails.username}
-                  className="w-10 h- border-1 rounded-full mr-2"
-                />
-                  <p className="font-semibold">{commentData.userDetails.username}</p>
-                <div className='flex justify-content-end'>
-                  <p className="text-gray-500  text-sm ">Posted on: {new Date(commentData.comment.date).toLocaleString().split(',')[0]}</p>
-
-                </div>
-              </div>
-              <p>{commentData.comment.text || commentData.comment.comment}</p>
+          {/* Add Comment Form */}
+          <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
+            <textarea
+              className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              rows={5}
+              placeholder="Share your thoughts..."
+            />
+            <div className="flex justify-end mt-4 space-x-4">
+              <button
+                type="button"
+                onClick={handleComment}
+                className="px-6 py-2 text-white bg-yellow-500 hover:bg-yellow-600 rounded-lg"
+              >
+                Comment
+              </button>
+              <button
+                type="button"
+                onClick={handleReset}
+                className="px-6 py-2 text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 rounded-lg"
+              >
+                Reset
+              </button>
             </div>
-          ))}
+          </div>
+
+          <div className="mt-6 space-y-4">
+            {comments.length === 0 ? (
+              <p className="text-gray-500">No comments yet. Be the first to comment!</p>
+            ) : (
+              comments.map((commentData, index) => (
+                <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-md">
+                  <div className="flex items-center mb-2">
+                    <img
+                      src={commentData.userDetails.avatar || 'default-avatar-url'}
+                      alt={commentData.userDetails.username}
+                      className="w-10 h-10 rounded-full mr-2"
+                    />
+                    <div>
+                      <p className="font-semibold">{commentData.userDetails.username}</p>
+                      <p className="text-gray-500 text-sm">Posted on: {new Date(commentData.comment.date).toLocaleString().split(',')[0]}</p>
+                    </div>
+                  </div>
+                  <p className="text-gray-700">{commentData.comment.text || commentData.comment.comment}</p>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    // </div>
   );
 };
 

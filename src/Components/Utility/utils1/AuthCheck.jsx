@@ -6,6 +6,7 @@ import { RiDashboard3Fill } from "react-icons/ri";
 const AuthCheck = () => {
   const [isLoggedIn, setLoginStatus] = useState(false); // Initialize isLoggedIn with false
   const [loginData, setLoginData] = useState({}); // Initialize isLoggedIn with false
+  const [userLoginType, setLoginType] = useState();
 
   const navigate = useNavigate();
 
@@ -29,6 +30,15 @@ const AuthCheck = () => {
     } else {
       setLoginStatus(true);
       setLoginData(getLoginInfo);
+      if (getLoginInfo.logintype === 2) {
+        setLoginType("admin")
+      }
+      else if (getLoginInfo.logintype === 1) {
+        setLoginType("teacher")
+      }
+      else {
+        setLoginType("user")
+      }
     }
   }, []); // Empty dependency array ensures this effect runs only once on component mount
 
@@ -86,19 +96,19 @@ const AuthCheck = () => {
 
               {dropdownOpen && (
                 <div className="absolute z-10 cursor-pointer right-0 mt-2 w-48  bg-[#002333] border border-gray-200 rounded-md shadow-lg">
-                  <NavLink to="/user/dashboard"
-                    className="text-white  font-semibold w-full  flex items-center h-10 m-2 text-sm rounded-md hover:bg-[#01ff85]  hover:text-[#002333]">
+                  <NavLink to={`/${userLoginType}/dashboard`}
+                    className="text-white  font-semibold w-auto  flex items-center h-10 p-2 text-sm rounded-md hover:bg-[#01ff85] hover:mx-0 hover:text-[#002333]">
 
                     <RiDashboard3Fill className="h-4 w-4" /><span className="p-1 ">Dashboard</span>
                   </NavLink>
-                   <NavLink to="/user/profile"
-                    className="text-white  font-semibold w-full  flex items-center h-10 m-2 text-sm rounded-md hover:bg-[#01ff85]  hover:text-[#002333]">
+                  <NavLink to="/user/profile"
+                    className="text-white  font-semibold w-auto  flex items-center h-10 p-2 text-sm rounded-md hover:bg-[#01ff85]  hover:mx-0   hover:text-[#002333]">
 
                     <IoPerson className="h-4 w-4" /><span className="p-1 "> Profile</span>
                   </NavLink>
                   <button
                     onClick={() => navigateTo(14)}
-                    className="text-white  font-semibold w-full  flex items-center h-10 m-2 text-sm rounded-md hover:bg-[#01ff85]  hover:text-[#002333]">
+                    className="text-white  font-semibold w-full  flex items-center h-10 p-2 text-sm rounded-md hover:bg-[#01ff85]   hover:text-[#002333]">
                     <IoLogOut className="h-6 w-6  " /> <span className="p-1">Log Out</span>
                   </button>
                 </div>

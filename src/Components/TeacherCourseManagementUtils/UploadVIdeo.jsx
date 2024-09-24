@@ -14,53 +14,84 @@ const UploadVideo = () => {
   const [videoFile, setVideoFile] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState('');
+  const [selectedModule, setSelectedModule] = useState('');
   const [owner, setOwner] = useState('');
-  const [loginData, setLoginData] = useState({});
   const [courses, setCourses] = useState([]);
+  const [modules, setModules] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const accessToken = localStorage.getItem('accessToken');
-
+  // Fetch login data from localStorage
   useEffect(() => {
     const getLoginInfo = JSON.parse(localStorage.getItem("setLoginInfo"));
-    if (getLoginInfo != null) {
-      setLoginData(getLoginInfo);
-      setOwner(getLoginInfo.userId);
+    if (getLoginInfo) {
+      setOwner(getLoginInfo.userId); // Set owner based on logged-in user
     }
   }, []);
 
+  // Fetch courses created by the owner (teacher)
   useEffect(() => {
     const fetchCourses = async () => {
+      if (!owner) return;
+
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
+      const accessToken = localStorage.getItem('accessToken');
+
       try {
         const response = await axios.post(
           `${backendUrl}/api/v1/teacher/get-mycourse`,
-          { owner },
+          { owner }, // Pass owner ID
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`
-            }
+              Authorization: `Bearer ${accessToken}`,
+            },
           }
         );
-        setCourses(response.data.data);
-        console.log(response.data.data)
+        setCourses(response.data.data); // Set courses fetched from API
       } catch (error) {
         toast.error("Error fetching courses. Please try again.", { position: "bottom-right" });
         console.error(error);
       }
     };
 
-    if (owner) {
-      fetchCourses();
-    }
-  }, [owner, accessToken]);
+    fetchCourses();
+  }, [owner]);
 
+  // Fetch modules when a course is selected
+  const handleCourseChange = async (e) => {
+    const selectedCourseId = e.target.value;
+    setSelectedCourse(selectedCourseId);
+    console.log(selectedCourse)
+    setSelectedModule(''); // Reset the module selection when the course changes
+
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
+    const accessToken = localStorage.getItem('accessToken');
+
+    try {
+      const response = await axios.post(
+        `${backendUrl}/api/v1/teacher/get-course-modules`,
+        { courseId: selectedCourseId },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      setModules(response.data.modules); // Set modules after fetching
+      console.log(response.data)
+    } catch (error) {
+      toast.error("Error fetching modules. Please try again.", { position: "bottom-right" });
+      console.error(error);
+    }
+  };
+
+  // Submit video upload form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ selectedCourse, owner });
     setLoading(true);
     const backendUrl = process.env.REACT_APP_BACKEND_URL;
+    const accessToken = localStorage.getItem('accessToken');
     const formData = new FormData();
+
     formData.append('videoFile', videoFile);
     formData.append('thumbnail', thumbnail);
     formData.append('title', title);
@@ -68,27 +99,30 @@ const UploadVideo = () => {
     formData.append('isPublished', isPublished);
     formData.append('owner', owner);
     formData.append('course', selectedCourse);
+    formData.append('moduleId', selectedModule);
 
     try {
-      const response = await axios.post(
+      await axios.post(
         `${backendUrl}/api/v1/teacher/upload-video`,
         formData,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'multipart/form-data'
-          }
+            'Content-Type': 'multipart/form-data',
+          },
         }
       );
       toast.success("Video uploaded successfully!", { position: "bottom-right" });
-      setLoading(false);
+      handleReset();
     } catch (error) {
       toast.error("Error uploading video. Please try again.", { position: "bottom-right" });
-      setLoading(false);
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Reset the form fields
   const handleReset = () => {
     setTitle('');
     setDescription('');
@@ -97,12 +131,13 @@ const UploadVideo = () => {
     setVideoFile(null);
     setThumbnail(null);
     setSelectedCourse('');
+    setSelectedModule('');
   };
 
   return (
     <>
       <TeacherCourseManagement>
-        <section className="flex justify-center bg-[#C5C5C6] h-auto m-0  items-center py-8">
+        <section className="flex justify-center bg-[#C5C5C6] h-auto m-0 items-center py-8">
           <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-8">
             {loading ? (
               <div className="flex justify-center items-center h-full">
@@ -112,6 +147,7 @@ const UploadVideo = () => {
                 <span className="ml-2">Uploading your video, please wait...</span>
               </div>
             ) : (
+          
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label className="block text-gray-700 font-semibold mb-2">Title</label>
@@ -124,6 +160,7 @@ const UploadVideo = () => {
                     required
                   />
                 </div>
+
                 <div className="mb-4">
                   <label className="block text-gray-700 font-semibold mb-2">Description</label>
                   <textarea
@@ -135,6 +172,7 @@ const UploadVideo = () => {
                     required
                   />
                 </div>
+
                 <div className="mb-4">
                   <label className="block text-gray-700 font-semibold mb-2">Publish</label>
                   <input
@@ -145,6 +183,7 @@ const UploadVideo = () => {
                     className="h-5 w-5 text-blue-600"
                   />
                 </div>
+
                 <div className="mb-4">
                   <label className="block text-gray-700 font-semibold mb-2">Creator</label>
                   <input
@@ -156,6 +195,7 @@ const UploadVideo = () => {
                     required
                   />
                 </div>
+
                 <div className="mb-4">
                   <label className="block text-gray-700 font-semibold mb-2">Video File</label>
                   <input
@@ -166,6 +206,7 @@ const UploadVideo = () => {
                     required
                   />
                 </div>
+
                 <div className="mb-4">
                   <label className="block text-gray-700 font-semibold mb-2">Thumbnail</label>
                   <input
@@ -176,36 +217,54 @@ const UploadVideo = () => {
                     required
                   />
                 </div>
+
                 <div className="mb-4">
                   <label className="block text-gray-700 font-semibold mb-2">Course</label>
                   <select
                     value={selectedCourse}
-                    onChange={(e) => setSelectedCourse(e.target.value)}
+                    onChange={handleCourseChange}
                     className="border border-gray-300 p-3 rounded-lg w-full"
                     required
                   >
                     <option value="" disabled>Select a course</option>
                     {courses.map((course) => (
-                      <option key={course._id} value={course.mycourses._id}>
+                      <option key={course._id} value={course._id}>
                         {course.mycourses.title}
                       </option>
                     ))}
                   </select>
                 </div>
-                <div className="flex justify-between">
-                  <button type="button" onClick={handleReset}className="w-1/2 h-10 bg-[#002333] text-white font-bold rounded-lg mr-2 hover:bg-[#011823]">
-                    Reset
-                  </button>
-                  <button type="submit"  className="w-1/2 h-10 bg-[#01ff85] text-gray-700 font-bold rounded-lg ml-2 hover:bg-[#01C567]" >
-                    Submit
-                  </button>
+
+                <div className="mb-4">
+                  <label className="block text-gray-700 font-semibold mb-2">Module</label>
+                  <select
+                    value={selectedModule}
+                    onChange={(e) => setSelectedModule(e.target.value)}
+                    className="border border-gray-300 p-3 rounded-lg w-full"
+                    required
+                  >
+                    <option value="" disabled>Select a module</option>
+                    {modules.map((module) => (
+                      <option key={module._id} value={module._id}>
+                        {module.title}
+                      </option>
+                    ))}
+                  </select>
                 </div>
+
+                <button
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                >
+                  Upload Video
+                </button>
               </form>
             )}
           </div>
         </section>
-        <ToastContainer />
       </TeacherCourseManagement>
+
+      <ToastContainer />
     </>
   );
 };
