@@ -6,18 +6,17 @@ import ReviewsSection from "../Utils2/ReviewsSection";
 import Headers from "../Utility/utils1/Headers";
 import Footers from "../Utility/utils1/Footers";
 
-const HeroSection = ({children}) => {
+const HeroSection = ({ children }) => {
   const [isLoggedIn, loginStatus] = useState(false);
 
   return (
-    <>  
-        <Headers/>
-        <HeroContent />
+    <>
+      <Headers />
+      <HeroContent />
       <CounterBar />
-      {/* <ReviewsSection/> */}
+      {/* <ReviewsSection /> */}
       <div>{children}</div>
-      <Footers/>
-     
+      <Footers />
     </>
   );
 };
@@ -32,22 +31,23 @@ export const CounterBar = () => {
 
   const fetchData = async () => {
     try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/countdata`);
-        setCountData(response.data.data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-    
-    if(!countData.users){
-      fetchData();
-  
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/countdata`);
+      setCountData(response.data.data);
+    } catch (error) {
+      console.error('Error:', error);
     }
+  };
 
+  // Only fetch data if not already fetched
+  useEffect(() => {
+    if (!countData.users) {
+      fetchData();
+    }
+  }, [countData]);
 
   return (
-    <div className="w-full h-32 text-white py-4">
-      <div className="container mx-auto grid grid-cols-4 gap-4">
+    <div className="w-full py-4 bg-[#002333] text-white">
+      <div className="container mx-auto grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
         <CounterItem label="Users" value={countData.users + "+"} />
         <CounterItem label="Courses" value={countData.courses + "+"} />
         <CounterItem label="Videos" value={countData.videos + "+"} />
@@ -58,9 +58,9 @@ export const CounterBar = () => {
 };
 
 const CounterItem = ({ label, value }) => (
-  <div className="flex flex-col items-center justify-center bg-[#002333] p-4 rounded shadow">
-    <h1 className="text-xl font-bold">{value}</h1>
-    <p className="text-lg">{label}</p>
+  <div className="flex flex-col items-center justify-center bg-[#00414d] p-4 rounded shadow hover:bg-[#005965] transition duration-300">
+    <h1 className="text-lg sm:text-xl font-bold">{value}</h1>
+    <p className="text-sm sm:text-lg">{label}</p>
   </div>
 );
 

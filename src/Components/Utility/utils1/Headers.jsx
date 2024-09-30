@@ -121,10 +121,10 @@ const Headers = () => {
                     </div>
 
                     {/* Purchase and Cart Links */}
-                    <NavLink to="/mylearning" className="text-sm flex mx-2">
+                    <NavLink to="/user/mylearning" className="text-sm flex mx-2">
                       <FaFolderOpen className="text-white mx-1 w-4 h-4" /> My Learning
                     </NavLink>
-                    <NavLink to="/cart" className="text-sm flex mx-2">
+                    <NavLink to="/user/addtocart" className="text-sm flex mx-2">
                       <FaCartShopping className="text-white mx-1 w-4 h-4" /> Cart
                     </NavLink>
                   </div>

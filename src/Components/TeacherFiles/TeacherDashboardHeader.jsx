@@ -65,25 +65,25 @@ const TeacherDashboardHeader = ({ children }) => {
               <RiProfileFill className="h-6 w-6" /> <span className="p-1">Profile</span>
             </NavLink>
             <NavLink
-              to="/teacher/coursemanagement"
+              to="/teacher/course-management"
               className={({ isActive }) => `my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] ${isActive ? activeClass : ''}`}
             >
               <MdCloudDownload className="h-6 w-6" /> <span className="p-1">Courses</span>
             </NavLink>
             <NavLink
-              to="/teacher/blogmanagement"
+              to="/teacher/blog-management"
               className={({ isActive }) => `my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] ${isActive ? activeClass : ''}`}
             >
               <FaHistory className="h-6 w-6" /> <span className="p-1">Blogs</span>
             </NavLink>
             <NavLink
-              to="/teacher/mytasks"
+              to="/teacher/my-tasks"
               className={({ isActive }) => `my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] ${isActive ? activeClass : ''}`}
             >
               <FaTasks className="h-6 w-6" /> <span className="p-1">Tasks</span>
             </NavLink>
             <NavLink
-              to="/teacher/notifications"
+              to="/teacher/notification-management"
               className={({ isActive }) => `my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] ${isActive ? activeClass : ''}`}
             >
               <IoNotifications className="h-6 w-6" /> <span className="p-1">Notifications</span>

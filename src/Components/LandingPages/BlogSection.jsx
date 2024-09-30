@@ -223,7 +223,7 @@ const BlogSection = () => {
                                     <div className="p-2">
                                         <h2 className="font-bold text-wrap w-72 my-1">{blog.title}</h2>
                                             <p className="text-gray-700  text-sm font-semibold h-16  "><i> {blog.author}</i></p>
-                                        <p className="text-gray-700 font-medium text-sm w-full">{blog.abstract}</p>
+                                        <p className="text-gray-700 font-medium text-sm w-full">{blog.views||<><p>10 views</p></>}</p>
                                       
                                             <button
                                                 onClick={() => handleReadMore(blog)}

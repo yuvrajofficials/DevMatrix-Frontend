@@ -1,9 +1,8 @@
 import React,{Children, useState} from 'react'
 import TeacherDashboardHeader from './TeacherDashboardHeader'
-import CreateCourse from '../ComponentManagement/CreateCourse'
 import { NavLink } from 'react-router-dom';
 import { IoSettings,IoCloseCircleSharp  } from 'react-icons/io5';
-import { FaCirclePlus,FaCircl } from "react-icons/fa6";
+import { FaCirclePlus } from "react-icons/fa6";
 import { FaEdit, FaUpload  } from "react-icons/fa";
 import { RiGalleryView2 } from 'react-icons/ri';
 import { MdCreateNewFolder } from 'react-icons/md';
@@ -77,37 +76,37 @@ const ManagementComponent = () => {
             {/* Add content for the right sidebar here */}
             <IoCloseCircleSharp className='w-8 h-8 flex text-white 'onClick={toggleRightSidebar}/>
             <NavLink
-              to="/teacher/coursemanagement/course-settings"
+              to="/teacher/course-management/course-settings"
               className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
             >
               <IoSettings className="h-6 w-6" /> <span className="p-1">Settings</span>
             </NavLink>
             <NavLink
-              to="/teacher/coursemanagement/create-course"
+              to="/teacher/course-management/create-course"
               className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
             >
               <MdCreateNewFolder  className="h-6 w-6" /> <span className="p-1">Create Course</span>
             </NavLink>
             <NavLink
-              to="/teacher/coursemanagement/view-all-course"
+              to="/teacher/course-management/view-all-course"
               className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
             >
               <RiGalleryView2 className="h-6 w-6" /> <span className="p-1">View All Course</span>
             </NavLink>
             <NavLink
-              to="/teacher/coursemanagement/edit-course"
+              to="/teacher/course-management/edit-course"
               className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
             >
               <FaEdit className="h-6 w-6" /> <span className="p-1">Edit Course</span>
             </NavLink>
             <NavLink
-              to="/teacher/coursemanagement/upload-video"
+              to="/teacher/course-management/upload-video"
               className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
             >
               <FaUpload className="h-6 w-6" /> <span className="p-1">Upload Video</span>
             </NavLink>
             <NavLink
-              to="/teacher/coursemanagement/create-modules"
+              to="/teacher/course-management/create-modules"
               className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
             >
               <VscFileSubmodule className="h-6 w-6" /> <span className="p-1">Create Module</span>

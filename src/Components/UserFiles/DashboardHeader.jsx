@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { RiDashboard3Fill, RiProfileFill } from 'react-icons/ri';
 import { FaHistory, FaTasks } from 'react-icons/fa';
 import { MdCloudDownload } from 'react-icons/md';
+import { FaCartShopping } from 'react-icons/fa6';
 
 const DashboardHeader = ({children}) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -71,6 +72,18 @@ const DashboardHeader = ({children}) => {
               <MdCloudDownload className="h-6 w-6" /> <span className="p-1">My Courses</span>
             </NavLink>
             <NavLink
+              to="/user/addtocart"
+              className={({ isActive }) => `my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] ${isActive ? activeClass : ''}`}
+            >
+              <FaCartShopping className="h-6 w-6" /> <span className="p-1">Carted Items</span>
+            </NavLink>
+            <NavLink
+              to="/user/notifications"
+              className={({ isActive }) => `my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] ${isActive ? activeClass : ''}`}
+            >
+              <IoNotifications className="h-6 w-6" /> <span className="p-1">Notifications</span>
+            </NavLink>
+            <NavLink
               to="/user/myhistory"
               className={({ isActive }) => `my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] ${isActive ? activeClass : ''}`}
             >
@@ -81,12 +94,6 @@ const DashboardHeader = ({children}) => {
               className={({ isActive }) => `my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] ${isActive ? activeClass : ''}`}
             >
               <FaTasks className="h-6 w-6" /> <span className="p-1">Tasks</span>
-            </NavLink>
-            <NavLink
-              to="/user/notifications"
-              className={({ isActive }) => `my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] ${isActive ? activeClass : ''}`}
-            >
-              <IoNotifications className="h-6 w-6" /> <span className="p-1">Notifications</span>
             </NavLink>
             <button
               onClick={handleLogOut}

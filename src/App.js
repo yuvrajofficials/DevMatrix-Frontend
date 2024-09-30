@@ -50,6 +50,10 @@ import DummyPaymentGateway from "./Components/Utils2/DummyPaymentGateway";
 import CreateModule from "./Components/TeacherCourseManagementUtils/CreateModule";
 import MyCourseLanding from "./Components/MyLearning/MyCourseLanding";
 import MyLearningGallery from "./Components/MyLearning/MyLearningGallery";
+import AddToCart from "./Components/UserFiles/AddToCart";
+import TeacherUploadResource from "./Components/TeacherBlogManagement/TeacherUploadResource";
+import TeacherCreateBlog from "./Components/TeacherBlogManagement/TeacherCreateBlog";
+import ViewAllBlogs from "./Components/TeacherBlogManagement/TeacherViewBlogs";
 
 
 const App = () => {
@@ -93,9 +97,9 @@ const App = () => {
             <Route exact path="/blogs/detailspage" element={<BlogDetails />} />
             
             
-            <Route exact path="/mylearning" element={<MyLearningGallery />} />
-            <Route exact path="/mylearning/:title/:courseId" element={<MyCourseLanding />} />
-            <Route exact path="/mylearning/:title/:courseId" element={<MyCourseLanding />} />
+            <Route exact path="/mycourses" element={<MyLearningGallery />} />
+            <Route exact path="/mycourses/:title/:courseId" element={<MyCourseLanding />} />
+            <Route exact path="/mycourses/:title/:courseId" element={<MyCourseLanding />} />
 
             
 
@@ -113,10 +117,12 @@ const App = () => {
             {/* authentified routes */}
             <Route path="/user" element={<UserAuth />}>
               <Route path="dashboard" element={<UserDashboard />} />
+              <Route path="mylearning" element={<UserDashboard />} />
               <Route path="profile" element={<UserProfile />} />
               <Route path="mycourses" element={<UserMyCourses />} />
               <Route path="myhistory" element={<UserHistory />} />
               <Route path="mytasks" element={<Todolist />} />
+              <Route path="addtocart" element={<AddToCart />} />
               <Route path="notifications" element={<UserNotifications />} />
 
             </Route>
@@ -125,19 +131,22 @@ const App = () => {
             <Route path="/teacher" element={<TeacherAuth />}>
               <Route path="dashboard" element={<TeacherDashboard />} />
               <Route path="profile" element={<TeacherProfile />} />
-              <Route path="blogmanagement" element={<TeacherBlogManagement />} />
               <Route path="myhistory" element={<TeacherHistory />} />
-              <Route path="mytasks" element={<TeacherTasks />} />
-              <Route path="notifications" element={<TeacherNotifications />} />
+              <Route path="my-tasks" element={<TeacherTasks />} />
+              <Route path="notification-management" element={<TeacherNotifications />} />
               {/* course management route */}
-              <Route path="coursemanagement" element={<TeacherCourseManagement />} />
-              <Route path="coursemanagement/create-course" element={<CreateCourseTeacher />} />
-              <Route path="coursemanagement/view-all-course" element={<ViewAllCourseTeacher />} />
-              <Route path="coursemanagement/upload-video" element={<UploadVideo />} />
-              <Route path="coursemanagement/course-settings" element={<CourseSettings />} />
-              <Route path="coursemanagement/edit-course" element={<EditCourse />} />
-              <Route path="coursemanagement/create-modules" element={<CreateModule />} />
+              <Route path="course-management" element={<TeacherCourseManagement />} />
+              <Route path="course-management/create-course" element={<CreateCourseTeacher />} />
+              <Route path="course-management/view-all-course" element={<ViewAllCourseTeacher />} />
+              <Route path="course-management/upload-video" element={<UploadVideo />} />
+              <Route path="course-management/course-settings" element={<CourseSettings />} />
+              <Route path="course-management/edit-course" element={<EditCourse />} />
+              <Route path="course-management/create-modules" element={<CreateModule />} />
 
+              <Route path="blog-management" element={<TeacherBlogManagement />} />
+              <Route path="blog-management/upload-resources" element={<TeacherUploadResource />} />
+              <Route path="blog-management/create-blog" element={<TeacherCreateBlog/>} />
+              <Route path="blog-management/view-all-blogs" element={<ViewAllBlogs/>} />
 
 
             </Route>
