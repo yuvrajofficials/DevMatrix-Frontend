@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import "../../CSS/utils.css";
 import TeacherCourseManagement from '../TeacherFiles/TeacherCourseManagement';
 import TeacherBlogManagement from '../TeacherFiles/TeacherBlogManagement';
-
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const ViewAllBlogs = () => {
     const navigate = useNavigate();
     const [userId, setUserId] = useState('');
@@ -26,9 +26,8 @@ const ViewAllBlogs = () => {
 
     useEffect(() => {
         const fetchBlogs = async () => {
-            const backendUrl = process.env.REACT_APP_BACKEND_URL;
             try {
-                const response = await axios.get(`${backendUrl}/api/v1/teacher/get-allblogs/${userId}`);
+                const response = await axios.get(`${BACKEND_URI}/api/v1/teacher/get-allblogs/${userId}`);
                 setBlogs(response.data.data); // Assuming the response structure has data inside data
             } catch (error) {
                 console.error(error);

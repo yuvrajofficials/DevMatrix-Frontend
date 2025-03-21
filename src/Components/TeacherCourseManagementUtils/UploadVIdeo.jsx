@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TeacherCourseManagement from '../TeacherFiles/TeacherCourseManagement';
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 
 const UploadVideo = () => {
+
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -33,12 +35,11 @@ const UploadVideo = () => {
     const fetchCourses = async () => {
       if (!owner) return;
 
-      const backendUrl = process.env.REACT_APP_BACKEND_URL;
       const accessToken = localStorage.getItem('accessToken');
 
       try {
         const response = await axios.post(
-          `${backendUrl}/api/v1/teacher/get-mycourse`,
+          `${BACKEND_URI}/api/v1/teacher/get-mycourse`,
           { owner }, // Pass owner ID
           {
             headers: {
@@ -63,12 +64,11 @@ const UploadVideo = () => {
     console.log(selectedCourse)
     setSelectedModule(''); // Reset the module selection when the course changes
 
-    const backendUrl = process.env.REACT_APP_BACKEND_URL;
     const accessToken = localStorage.getItem('accessToken');
 
     try {
       const response = await axios.post(
-        `${backendUrl}/api/v1/teacher/get-course-modules`,
+        `${BACKEND_URI}/api/v1/teacher/get-course-modules`,
         { courseId: selectedCourseId },
         {
           headers: {
@@ -88,7 +88,6 @@ const UploadVideo = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const backendUrl = process.env.REACT_APP_BACKEND_URL;
     const accessToken = localStorage.getItem('accessToken');
     const formData = new FormData();
 
@@ -103,7 +102,7 @@ const UploadVideo = () => {
 
     try {
       await axios.post(
-        `${backendUrl}/api/v1/teacher/upload-video`,
+        `${BACKEND_URI}/api/v1/teacher/upload-video`,
         formData,
         {
           headers: {
@@ -137,8 +136,8 @@ const UploadVideo = () => {
   return (
     <>
       <TeacherCourseManagement>
-        <section className="flex justify-center bg-[#C5C5C6] h-auto m-0 items-center py-8">
-          <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-8">
+        <section className="p-4 bg-blue-50  rounded-xl min-h-screen  border-1 border-blue-400">
+          <div className="flex justify-center ">
             {loading ? (
               <div className="flex justify-center items-center h-full">
                 <div className="spinner-border text-primary" role="status">
@@ -147,83 +146,103 @@ const UploadVideo = () => {
                 <span className="ml-2">Uploading your video, please wait...</span>
               </div>
             ) : (
-          
-              <form onSubmit={handleSubmit}>
+
+              <form onSubmit={handleSubmit} className="w-full w-full bg-white shadow-lg rounded-lg p-8">
+                {/* Title */}
+                <h2 className="text-2xl border-b border-blue-400 pb-4 font-bold text-center text-gray-700 mb-6">Upload Video</h2>
+
+                {/* Course Title */}
                 <div className="mb-4">
                   <label className="block text-gray-700 font-semibold mb-2">Title</label>
                   <input
                     name="title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="border border-gray-300 p-3 rounded-lg w-full"
-                    placeholder="Title"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    placeholder="Enter video title"
                     required
                   />
                 </div>
 
+                {/* Description */}
                 <div className="mb-4">
                   <label className="block text-gray-700 font-semibold mb-2">Description</label>
                   <textarea
                     name="description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="border border-gray-300 p-3 rounded-lg w-full"
-                    placeholder="Description"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    placeholder="Enter a brief description"
                     required
                   />
                 </div>
 
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-semibold mb-2">Publish</label>
-                  <input
-                    type="checkbox"
-                    name="isPublished"
-                    checked={isPublished}
-                    onChange={(e) => setIsPublished(e.target.checked)}
-                    className="h-5 w-5 text-blue-600"
-                  />
+                <div className="lg:flex justify-between sm:block md:block  lg:space-x-4">
+
+
+                  {/* Creator */}
+                  <div className="mb-4 lg:w-1/2 ">
+                    <label className="block text-gray-700 font-semibold mb-2">Creator</label>
+                    <input
+                      name="creator"
+                      value={creator}
+                      onChange={(e) => setCreator(e.target.value)}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      placeholder="Enter creator name"
+                      required
+                    />
+                  </div>
+
+                  {/* Publish Checkbox */}
+                  <div className="mb-4 lg:w-1/2  flex items-center">
+                    <input
+                      type="checkbox"
+                      name="isPublished"
+                      checked={isPublished}
+                      onChange={(e) => setIsPublished(e.target.checked)}
+                      className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    />
+                    <label className="ml-3 text-gray-700 font-semibold">Publish</label>
+                  </div>
+
+                  </div>
+                  <div className="lg:flex justify-between sm:block md:block  lg:space-x-4">
+
+
+                  {/* Video File Upload */}
+                  <div className="mb-4 lg:w-1/2">
+                    <label className="block text-gray-700 font-semibold mb-2">Video File</label>
+                    <input
+                      type="file"
+                      name="videoFile"
+                      onChange={(e) => setVideoFile(e.target.files[0])}
+                      className="block w-full p-2 border border-gray-100 rounded-lg bg-gray-100 cursor-pointer file:bg-blue-500 file:text-white file:px-3 file:py-2 file:rounded-md"
+                      required
+                    />
+                  </div>
+
+                  {/* Thumbnail Upload */}
+                  <div className="mb-4 lg:w-1/2">
+                    <label className="block text-gray-700 font-semibold mb-2">Thumbnail</label>
+                    <input
+                      type="file"
+                      name="thumbnail"
+                      onChange={(e) => setThumbnail(e.target.files[0])}
+                      className="block w-full p-2 border border-gray-100 rounded-lg bg-gray-100 cursor-pointer file:bg-blue-500 file:text-white file:px-3 file:py-2 file:rounded-md"
+                      required
+                    />
+                  </div>
+
+
                 </div>
 
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-semibold mb-2">Creator</label>
-                  <input
-                    name="creator"
-                    value={creator}
-                    onChange={(e) => setCreator(e.target.value)}
-                    className="border border-gray-300 p-3 rounded-lg w-full"
-                    placeholder="Creator"
-                    required
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-semibold mb-2">Video File</label>
-                  <input
-                    type="file"
-                    name="videoFile"
-                    onChange={(e) => setVideoFile(e.target.files[0])}
-                    className="block w-full text-gray-700 p-2 border border-gray-300 rounded-lg"
-                    required
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-semibold mb-2">Thumbnail</label>
-                  <input
-                    type="file"
-                    name="thumbnail"
-                    onChange={(e) => setThumbnail(e.target.files[0])}
-                    className="block w-full text-gray-700 p-2 border border-gray-300 rounded-lg"
-                    required
-                  />
-                </div>
-
+                {/* Course Selection */}
                 <div className="mb-4">
                   <label className="block text-gray-700 font-semibold mb-2">Course</label>
                   <select
                     value={selectedCourse}
                     onChange={handleCourseChange}
-                    className="border border-gray-300 p-3 rounded-lg w-full"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     required
                   >
                     <option value="" disabled>Select a course</option>
@@ -235,12 +254,13 @@ const UploadVideo = () => {
                   </select>
                 </div>
 
+                {/* Module Selection */}
                 <div className="mb-4">
                   <label className="block text-gray-700 font-semibold mb-2">Module</label>
                   <select
                     value={selectedModule}
                     onChange={(e) => setSelectedModule(e.target.value)}
-                    className="border border-gray-300 p-3 rounded-lg w-full"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     required
                   >
                     <option value="" disabled>Select a module</option>
@@ -252,13 +272,24 @@ const UploadVideo = () => {
                   </select>
                 </div>
 
-                <button
-                  type="submit"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                >
-                  Upload Video
-                </button>
+                {/* Buttons */}
+                <div className="flex gap-4">
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="w-1/2 py-3 text-lg font-medium bg-gray-700 text-white rounded-lg hover:bg-gray-900 transition duration-300"
+                  >
+                    Reset
+                  </button>
+                  <button
+                    type="submit"
+                    className="w-1/2 py-3 text-lg font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300"
+                  >
+                    Upload Video
+                  </button>
+                </div>
               </form>
+
             )}
           </div>
         </section>

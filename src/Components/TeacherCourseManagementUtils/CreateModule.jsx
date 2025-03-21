@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from "axios";
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -26,10 +27,10 @@ const CreateModule = () => {
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  
       try {
         const response = await axios.post(
-          `${backendUrl}/api/v1/teacher/get-mycourse`,
+          `${BACKEND_URI}/api/v1/teacher/get-mycourse`,
           { owner },
           {
             headers: {
@@ -54,7 +55,7 @@ const CreateModule = () => {
     e.preventDefault();
     console.log({ title, owner, selectedCourse });
     setLoading(true);
-    const backendUrl = process.env.REACT_APP_BACKEND_URL;
+    
     const formData = {
       title,
       owner,
@@ -63,7 +64,7 @@ const CreateModule = () => {
 
     try {
       const response = await axios.post(
-        `${backendUrl}/api/v1/teacher/create-module`,
+        `${BACKEND_URI}/api/v1/teacher/create-module`,
         formData,
         {
           headers: {
@@ -89,17 +90,19 @@ const CreateModule = () => {
   return (
     <>
       <TeacherCourseManagement>
-        <section className="flex justify-center bg-[#C5C5C6] h-screen m-0  items-center py-8">
-          <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-8">
+      <section className="p-4 bg-blue-50  rounded-xl min-h-screen  border-1 border-blue-400">
+          <div className="flex justify-center ">
             {loading ? (
               <div className="flex justify-center items-center h-full">
                 <div className="spinner-border text-primary" role="status">
                   <span className="visually-hidden">Loading...</span>
                 </div>
-                <span className="ml-2">Creating your module, please wait...</span>
+                <span className="ml-2">Uploading your video, please wait...</span>
               </div>
             ) : (
-              <form onSubmit={handleSubmit}>
+          
+              <form onSubmit={handleSubmit} className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-8">
+  {/* Title */}
                 <div className="mb-4">
                   <label className="block text-gray-700 font-semibold mb-2">Title</label>
                   <input
@@ -116,7 +119,7 @@ const CreateModule = () => {
                   <select
                     value={selectedCourse}
                     onChange={(e) => setSelectedCourse(e.target.value)}
-                    className="border border-gray-300 p-3 rounded-lg w-full"
+                    className="border border-gray-300 p-3 rounded-lg w-full bg-blue-50"
                     required
                   >
                     <option value="" disabled>Select a course</option>
@@ -128,10 +131,10 @@ const CreateModule = () => {
                   </select>
                 </div>
                 <div className="flex justify-between">
-                  <button type="button" onClick={handleReset}className="w-1/2 h-10 bg-[#002333] text-white font-bold rounded-lg mr-2 hover:bg-[#011823]">
+                  <button type="button" onClick={handleReset}className="w-1/2 h-10 bg-[#304261] text-white font-bold rounded-lg mr-2 hover:bg-[#011823]">
                     Reset
                   </button>
-                  <button type="submit"  className="w-1/2 h-10 bg-[#01ff85] text-gray-700 font-bold rounded-lg ml-2 hover:bg-[#01C567]" >
+                  <button type="submit"  className="w-1/2 h-10 bg-blue-500 text-white font-bold rounded-lg ml-2 hover:bg-blue-600" >
                     Submit
                   </button>
                 </div>

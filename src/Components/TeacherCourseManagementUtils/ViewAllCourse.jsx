@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../Utility/utils1/Headers';
 import Footer from '../Utility/utils1/Footers';
-import axios from 'axios';
+import axios from "axios";
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 import { useNavigate } from 'react-router-dom';
 import "../../CSS/utils.css"
 import TeacherCourseManagement from '../TeacherFiles/TeacherCourseManagement';
@@ -23,30 +24,39 @@ const ViewAllCourse = () => {
         }
     }, []);
 
-
     useEffect(() => {
+        if (!owner) return;  // Prevent API call if owner is empty
+    
         const fetchCourses = async () => {
-            const backendUrl = process.env.REACT_APP_BACKEND_URL;
             try {
-                const response = await axios.get(`${backendUrl}/api/v1/teacher/get-allcourse/${owner}`);
-                setCourses(response.data.data); // Assuming the response structure has data inside data
+                const response = await axios.get(`${BACKEND_URI}/api/v1/teacher/get-allcourse/${owner}`);
+                console.log(response.data)
+                if (response.data && response.data.data) {
+                    setCourses(response.data.data);
+                } else {
+                    setCourses([]); // Fallback in case of unexpected API response
+                }
             } catch (error) {
-                console.error(error);
+                console.error("Error fetching courses:", error);
+                setCourses([]); // Ensure courses is always an array
             }
         };
-
-  
+    
         fetchCourses();
     }, [owner]);
+    
 
+  
+     
     const handleSearch = (e) => {
         setSearchQuery(e.target.value);
     };
 
-    const filteredCourses = courses.filter((course) =>
-        (course.title.toLowerCase().includes(searchQuery.toLowerCase())) &&
+    const filteredCourses = (courses || []).filter((course) =>
+        course.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
         (selectedCategory ? course.category === selectedCategory : true)
     );
+    
 
     const handlePurchaseClick = (course) => {
         navigate('/courses/detailspage', { state: { course } });
@@ -55,8 +65,8 @@ const ViewAllCourse = () => {
     return (
         <>
             <TeacherCourseManagement>
-            <div className="container bg-[#C5C5C6] h-screen mx-auto px-4 py-8">
-                <div className="mb-8 flex flex-col lg:flex-row justify-between items-center">
+            <div className='p-4 bg-blue-50  rounded-xl min-h-screen  border-1 border-blue-400'>
+            <div className="mb-8 flex flex-col lg:flex-row justify-between items-center">
                     <h1 className="text-3xl font-bold mb-4 lg:mb-0 lg:text-left">Our Courses</h1>
                     <input
                         type="text"
@@ -85,7 +95,7 @@ const ViewAllCourse = () => {
                                             <p className="text-gray-700 font-bold text-sm truncate w-1/2">&#x20B9; {course.price}</p>
                                             <button
                                                 onClick={() => handlePurchaseClick(course)}
-                                                className="bg-gradient-to-r from-[#01ff85] to-[#01C567] hover:to-[#01ff85] hover:from-[#01C567] text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition duration-300 ease-in-out"
+                                                className="bg-gradient-to-r bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition duration-300 ease-in-out"
                                             >
                                                 Purchase
                                             </button>

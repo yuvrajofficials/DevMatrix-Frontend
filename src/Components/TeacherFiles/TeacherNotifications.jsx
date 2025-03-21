@@ -4,22 +4,24 @@ import TeacherDashboardHeader from "./TeacherDashboardHeader"
 import React,{Children, useEffect, useState} from 'react'
 import { NavLink } from 'react-router-dom';
 import { IoSettings,IoCloseCircleSharp  } from 'react-icons/io5';
-import { FaCirclePlus,FaCircl } from "react-icons/fa6";
+import { FaCirclePlus } from "react-icons/fa6";
 import { FaEdit, FaUpload  } from "react-icons/fa";
 import { RiGalleryView2, RiSpam2Fill } from 'react-icons/ri';
 import { MdCreateNewFolder, MdDrafts, MdMessage } from 'react-icons/md';
 import { VscFileSubmodule } from 'react-icons/vsc';
 import { BsFillSendFill } from "react-icons/bs";
- 
+import TeacherNotManagement from "./TeacherNotificationManagement";
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URL;
+
+
 const TeacherNotifications = ({children}) => {
   const [notifications, setNotifications] = useState([]);
-  const backendUrl = process.env.REACT_APP_BACKEND_URL;
   const notificationThumbnail = "https://plus.unsplash.com/premium_vector-1718791232666-f22f58c74bc6?dpr=1&h=294&w=294&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXRodW1ibmFpbHx8dk9HZjNxSXF0Z1F8fGVufDB8fHx8fA%3D%3D";
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get(`${backendUrl}/api/v1/users/get-notification`);
+        const response = await axios.get(`${BACKEND_URI}/api/v1/users/get-notification`);
         const sortedNotifications = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setNotifications(sortedNotifications);
       } catch (error) {
@@ -28,7 +30,7 @@ const TeacherNotifications = ({children}) => {
     };
 
     fetchNotifications();
-  }, [backendUrl]);  // Adding backendUrl as dependency to prevent unnecessary re-fetches
+  }, []);  // Adding backendUrl as dependency to prevent unnecessary re-fetches
 
 const handleClickedNotification = (notification) =>{
 }
@@ -44,12 +46,13 @@ let isToggleOpen = () =>{
 
   return (
     <>
-      <TeacherDashboardHeader>
+      <TeacherNotManagement>
+      <section className="p-4 bg-blue-50  rounded-xl min-h-screen  border-1 border-blue-400">
       {children||<>
       <div className="flex">
-       
-        <div className="main-admin-component w-screen">
-          <div className="bg-gray-100 min-h-screen p-5">
+
+        <div className="main-admin-component w-full">
+          <div className="bg-gray-100 min-h-screen ">
             <div className="w-auto mx-auto bg-white shadow-md rounded-lg">
               <div className="p-4 border-b border-gray-200">
                 <h2 className="text-2xl font-semibold text-gray-700">Notifications</h2>
@@ -81,75 +84,13 @@ let isToggleOpen = () =>{
       </div>
       </>}
       <button className='fixed top-24 right-0 w-auto' onClick={isToggleOpen}>
-    {isSidebarOpen? <NotificationView/>:<ManagementComponent/>}
+   
   </button>
-
-      </TeacherDashboardHeader>
+</section>
+      </TeacherNotManagement>
     </>
   );
 };
 
 
 export default TeacherNotifications
-
-
-const NotificationView = () => {
-  return (
-    <div className='flex justify-content-center '>
-    <FaCirclePlus className='w-12 h-12 block text-[#002333] '/>
-    
-      
-    </div>
-  )
-}
-
-
-const ManagementComponent = () => {
-  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
-  
-  const toggleRightSidebar = () => {
-    setIsRightSidebarOpen(!isRightSidebarOpen);
-  };
-
-  return (
-    <div>
-       <aside className={`bg-[#002333] fixed top-20 right-0 w-48 h-[calc(100vh-5rem)] md:flex flex-col ${isRightSidebarOpen ? 'block' : 'hidden'} md:block z-0`}>
-            {/* Add content for the right sidebar here */}
-            <IoCloseCircleSharp className='w-8 h-8 flex text-white 'onClick={toggleRightSidebar}/>
-            <NavLink
-              to="/teacher/notification-management/settings"
-              className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
-            >
-              <IoSettings className="h-6 w-6" /> <span className="p-1">Settings</span>
-            </NavLink>
-            <NavLink
-              to="/teacher/notification-management/inbox"
-              className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
-            >
-              <MdMessage className="h-6 w-6" /> <span className="p-1">Inbox</span>
-            </NavLink>
-            <NavLink
-              to="/teacher/notification-management/compose"
-              className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
-            >
-              <BsFillSendFill  className="h-6 w-6" /> <span className="p-1">Compose</span>
-            </NavLink>
-            <NavLink
-              to="/teacher/notification-management/draft"
-              className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
-            >
-              <MdDrafts className="h-6 w-6" /> <span className="p-1">Draft</span>
-            </NavLink>
-            <NavLink
-              to="/teacher/notification-management/spam"
-              className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
-            >
-              <RiSpam2Fill className="h-6 w-6" /> <span className="p-1">Spam Messages</span>
-            </NavLink>
-
-           
-            {/* You can add more items here as needed */}
-          </aside>
-    </div>
-  )
-}

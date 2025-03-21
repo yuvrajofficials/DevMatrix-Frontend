@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ApplyAsTeacherImage from "../../Images/ApplyAsTeacher.png"
+import ApplyAsTeacherImage from "../../Images/ApplyAsTeacher.png"; // Make sure the path is correct
 
 const ApplyAsTeacher = () => {
-  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
@@ -32,79 +30,79 @@ const ApplyAsTeacher = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 py-6 px-4">
-      <div className="container mx-auto flex flex-col lg:flex-row items-center justify-center space-y-8 lg:space-y-0 lg:space-x-8">
+    <div className="bg-white mt-12 flex flex-col items-center justify-center">
+      {/* <div className="text-center mb-6">
+        <h1 className="text-6xl text-[#304261] font-bold mb-4">Apply as a Teacher</h1>
+        <p className="text-3xl">Interested in joining our teaching staff? You can also email us directly at <span className="text-[#ff5b2b]">devmatrix@email.com</span></p>
+      </div> */}
+      <h2 className="text-4xl mt-12 font-bold text-gray-800">Interested to teach? Let's apply</h2>
+            <p className="text-lg text-gray-500 mt-2">
+                Hear from our users who love our platform.
+            </p>
+
+      <div className="flex flex-col lg:flex-row items-center justify-center space-x-0 lg:space-x-8 w-full max-w-5xl mx-auto">
         
-        {/* Left Section: Heading */}
-        <div className="w-full lg:w-1/2 text-center lg:text-left px-4">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4">Apply as a Teacher</h1>
-          <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-6">
-            Interested in joining our teaching staff? Feel free to send us your details. You can also email us directly at 
-            <span className="text-[#01C567]"> devmatrix@email.com </span>.
-          </p>
-          {/* Placeholder for Image */}
-          <div className="hidden lg:block">
-            <img src={ApplyAsTeacherImage} alt="Apply as Teacher" className="mx-auto lg:mx-0 max-w-xs sm:max-w-sm md:max-w-md rounded-lg shadow-lg" />
-          </div>
+        {/* Placeholder for Image */}
+        <div className="">
+          <img src={ApplyAsTeacherImage} alt="Apply as Teacher" className="h-1/2 bg-transparent rounded-lg " />
         </div>
 
         {/* Right Section: Form */}
-        <div className="w-full lg:w-1/2 bg-white rounded-lg shadow-xl p-6 sm:p-8 border border-gray-300">
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-            <input
-              type="text"
-              name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter Your Name"
-              className="w-full h-10 sm:h-12 pl-4 pr-12 py-2 border-2 border-gray-300 text-gray-800 rounded-md focus:outline-none focus:border-[#01C567] focus:ring focus:ring-[#01C567] focus:ring-opacity-50 transition"
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="name@mail.com"
-              className="w-full h-10 sm:h-12 pl-4 pr-12 py-2 border-2 border-gray-300 text-gray-800 rounded-md focus:outline-none focus:border-[#01C567] focus:ring focus:ring-[#01C567] focus:ring-opacity-50 transition"
-              required
-            />
-            <input
-              type="text"
-              name="subject"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              placeholder="Highest Qualification you have..."
-              className="w-full h-10 sm:h-12 pl-4 pr-12 py-2 border-2 border-gray-300 text-gray-800 rounded-md focus:outline-none focus:border-[#01C567] focus:ring focus:ring-[#01C567] focus:ring-opacity-50 transition"
-              required
-            />
-            <textarea
-              name="message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              rows={4}
-              placeholder="Tell us about your experience and explain why you would be a great addition to our teaching team."
-              className="w-full pl-4 pr-12 py-2 border-2 border-gray-300 text-gray-800 rounded-md focus:outline-none focus:border-[#01C567] focus:ring focus:ring-[#01C567] focus:ring-opacity-50 transition"
-              required
-            />
-            <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0 sm:space-x-4">
-              <button
-                type="button"
-                onClick={handleReset}
-                className="w-full sm:w-1/2 h-10 text-sm font-semibold border border-gray-300 text-gray-700 hover:bg-gray-100 rounded-md transition-all duration-300"
-              >
-                Reset Form
-              </button>
-              <button
-                type="submit"
-                className="w-full sm:w-1/2 h-10 text-sm font-semibold bg-[#01C567] hover:bg-[#00b65e] text-white rounded-md transition-all duration-300"
-              >
-                Apply Now!
-              </button>
-            </div>
-          </form>
-        </div>
+        <form onSubmit={handleSubmit} className="w-full max-w-md mt-12 z-10 shadow-md bg-white rounded-xl p-6">
+          <input
+            type="text"
+            name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter Your Name"
+            className="w-full h-16 pl-4 pr-12 py-2 my-2 bg-blue-50 text-[#304261] rounded-md focus:outline-none focus:border-[#ffa146]"
+            required
+          />
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="name@mail.com"
+            className="w-full h-16 pl-4 pr-12 py-2 my-2 bg-blue-50 text-[#304261] rounded-md focus:outline-none focus:border-[#ffa146]"
+            required
+          />
+          <input
+            type="text"
+            name="subject"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            placeholder="Highest Qualification you have..."
+            className="w-full h-16 pl-4 pr-12 py-2 my-2 bg-blue-50 text-[#304261] rounded-md focus:outline-none focus:border-[#ffa146]"
+            required
+          />
+          <textarea
+            name="message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            rows={5}
+            placeholder="Tell us about your experience and why you would be a great addition to our teaching team."
+            className="w-full h-auto pl-4 pr-12 py-2 my-3 bg-blue-50 text-[#304261] rounded-md focus:outline-none focus:border-[#ffa146]"
+            required
+          />
+          <div className="flex justify-center mt-4">
+            <button
+              type="button"
+              onClick={handleReset}
+              className="border-2 mx-2 border-blue-600 text-blue-600 w-full sm:w-48 font-semibold py-2 px-4 rounded-lg hover:bg-[#eafff5] transition duration-300 text-center"
+            >
+              Reset
+            </button>
+            <button
+              type="submit"
+              className="bg-gradient-to-r from-blue-600 to-blue-700 font-semibold text-white py-2 px-4 mx-2 w-full sm:w-48 rounded-lg hover:bg-[#163442] transition duration-300 text-center"
+            >
+              Apply Now!
+            </button>
+          </div>
+        </form>
       </div>
+      
       <ToastContainer />
     </div>
   );

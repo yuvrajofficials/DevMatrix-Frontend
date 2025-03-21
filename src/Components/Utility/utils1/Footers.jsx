@@ -29,10 +29,11 @@ const Footers = () => {
   };
 
   return (
-    <footer className="w-auto bg-slate-900 text-white py-8">
+    <footer className="w-auto bg-blue-50 text-[#304261] py-8">
     <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <div className="flex flex-col items-center  lg:items-start lg:text-left">
-            <img className="w-48 mb-4" src={DevMatrix_logo} alt="DevMatrix Logo" />
+        <p className="text-gray-800  font-bold text-2xl p-2">Dev<span className="text-blue-600 font-bold text-2xl">Matrix</span></p>
+     
             <p className="text-base font-normal px-2 lg:px-0">
                 DevMatrix is democratising education, making it accessible to all. Join the revolution, learn on India's largest learning platform.
             </p>
@@ -86,7 +87,7 @@ const Footers = () => {
             <li className="cursor-pointer text-2xl hover:underline"><FaInstagramSquare /></li>
             <li className="cursor-pointer text-2xl hover:underline"><FaTwitterSquare /></li>
         </ul>
-        <p className="text-md text-[#01ff85]">
+        <p className="text-md text-blue-600">
             All rights are reserved &#169; DevMatrix
         </p>
     </div>

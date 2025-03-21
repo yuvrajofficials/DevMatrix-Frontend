@@ -79,14 +79,14 @@ const Discussions = ({ course }) => {
               <button
                 type="button"
                 onClick={handleDiscussion}
-                className="bg-white mx-2 w-48 h-12 hover:text-gray-500 hover:border-gray-500 text-purple-700 border-2 border-purple-700 font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
+                className="bg-white mx-2 w-48 h-12 hover:text-gray-500 hover:border-gray-500 text-orange-700 border-2 border-orange-700 font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
               >
                 Share
               </button>
               <button
                 type="button"
                 onClick={handleReset}
-                className="bg-purple-600 hover:bg-purple-700  w-48 h-12 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
+                className="bg-orange-600 hover:bg-orange-700  w-48 h-12 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
               >
                 Reset
               </button>

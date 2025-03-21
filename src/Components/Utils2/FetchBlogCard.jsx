@@ -20,10 +20,10 @@ const FetchBlogCard = () => {
     }, []);
 
     return (
-        <div className="overflow-hidden w-full bg-white py-8">
+        <div className="overflow-hidden w-full  py-8">
             <div className="animate-scroll space-x-6">
                 {blogs.map((blog) => (
-                    <div key={blog._id} className="w-80 flex-shrink-0 bg-gray-100 border border-gray-200 rounded-lg overflow-hidden">
+                    <div key={blog._id} className="w-80  bg-white shadow-lg flex-shrink-0 border border-gray-200 rounded-lg overflow-hidden">
                         <img src={blog.thumbnail} alt={blog.title} className="w-full h-40 object-cover" />
                         <div className="p-4">
                             <h2 className="text-xl font-bold">{blog.title}</h2>

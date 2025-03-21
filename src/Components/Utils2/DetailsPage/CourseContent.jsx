@@ -1,75 +1,88 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import slugify from 'slugify';
 
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
+
+import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
 
 const CourseContent = ({ course }) => {
-    const [completeCourseDetails, setCompleteCourseDetails] = useState([]);
-    const [expandedModule, setExpandedModule] = useState(null);
-    const courseId = course._id;
-  
-    const toggleModule = (moduleIndex) => {
-      setExpandedModule(expandedModule === moduleIndex ? null : moduleIndex);
+  const [modules, setModules] = useState([]);
+  const [expandedModule, setExpandedModule] = useState(null);
+  const [isVisible, setIsVisible] = useState(true);
+
+  const toggleModule = (index) => {
+    setExpandedModule(expandedModule === index ? null : index);
+  };
+
+  const toggleVisibility = () => {
+    setIsVisible(!isVisible);
+  };
+
+  useEffect(() => {
+    const fetchCourseDetails = async () => {
+      try {
+        const storedLoginInfo = JSON.parse(localStorage.getItem("setLoginInfo"));
+        const accessToken = storedLoginInfo?.token;
+
+        const response = await axios.post(
+          `${BACKEND_URI}/api/v1/users/mylearning/get-course-details`,
+          { courseId: course._id },
+          { headers: { Authorization: `Bearer ${accessToken}` } }
+        );
+
+        setModules(response.data.data[0].modules || []);
+      } catch (error) {
+        console.error('Failed to fetch course details', error);
+      }
     };
-  
-    useEffect(() => {
-      const getCourseDetails = async () => {
-        try {
-          const getLoginInfo = JSON.parse(localStorage.getItem("setLoginInfo"));
-          const accessToken = getLoginInfo?.token;
-  
-          const response = await axios.post(
-            `${process.env.REACT_APP_BACKEND_URL}/api/v1/users/mylearning/get-course-details`,
-            { courseId },
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          );
-  
-          setCompleteCourseDetails(response.data.data[0].modules);
-          console.log(response.data.data[0].modules);
-        } catch (error) {
-          alert('Failed to fetch course details.');
-        }
-      };
-  
-      getCourseDetails();
-    }, [courseId]);
-  
-    return (
-      <div>
-        <h1 className="text-2xl font-bold mb-6 text-gray-700">{course.title}</h1>
-        {completeCourseDetails && completeCourseDetails.length > 0 ? (
-          completeCourseDetails.map((module, index) => (
-            <div key={index} className="mb-3">
+
+    fetchCourseDetails();
+  }, [course._id]);
+
+  return (
+    <div className="">
+      {/* Header */}
+      <div className="flex justify-between items-center">
+
+        <h1 className="text-xl font-bold text-gray-800">Course Content</h1>
+        <div
+          onClick={toggleVisibility}
+          className="text-blue-500 hover:text-blue-700 transition-all"
+        >
+          {isVisible ? <> <RiArrowDropUpLine className='w-8 h-8' /> </> : <RiArrowDropDownLine className='w-8 h-8' />}
+        </div>
+
+      </div>
+
+      {/* Modules List */}
+      <div className={`${isVisible ? "block" : "hidden"} px-8 mt-4`}>
+        {modules.length > 0 ? (
+          modules.map((module, index) => (
+            <div key={index} className="mb-4 ">
+              {/* Module Header */}
               <div
-                className="flex justify-between items-center p-2 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition-all duration-300"
+                className="flex justify-between items-center bg-blue-100 text-blue-700 p-3 rounded-lg cursor-pointer hover:bg-blue-200 transition-all"
                 onClick={() => toggleModule(index)}
               >
-                <h2 className="font-semibold text-md text-gray-800">{module.module.title}</h2>
-                <span className="text-2xl text-gray-500">{expandedModule === index ? '-' : '+'}</span>
+                <h2 className="font-semibold">{module.module.title}</h2>
+                <span className="text-xl">{expandedModule === index ? '−' : '+'}</span>
               </div>
+
+              {/* Videos List */}
               {expandedModule === index && (
-                <div className="mt-2 bg-gray-50 p-2 mx-2 rounded-lg shadow-lg">
-                  {module.videos && module.videos.length > 0 ? (
+                <div className="bg-gray-100 m-8  mt-2">
+                  {module.videos.length > 0 ? (
                     module.videos.map((video) => (
                       <div
                         key={video._id}
-                        className="flex items-center border-b-2 p-1 hover:bg-gray-100 cursor-pointer transition-all duration-300 rounded-lg"
+                        className="flex items-center gap-3 p-2 border-b hover:bg-gray-100 rounded-lg transition-all cursor-pointer"
                       >
-                        <img src={video.thumbnail} alt="thumbnail" className="w-20 h-10 rounded-lg shadow-md" />
-                        <div className="ml-4 ">
-                          <p className="font-semibold text-sm text-gray-700">{video.title}</p>
-                        </div>
+                        <img src={video.thumbnail} alt="Thumbnail" className="w-16 h-10 rounded-md shadow" />
+                        <p className="font-medium text-gray-700">{video.title}</p>
                       </div>
                     ))
                   ) : (
-                    <p className="text-sm text-gray-500">No videos available in this module.</p>
+                    <p className="text-gray-500">No videos available.</p>
                   )}
                 </div>
               )}
@@ -79,9 +92,8 @@ const CourseContent = ({ course }) => {
           <p className="text-gray-500">No modules available.</p>
         )}
       </div>
-    );
-  };
+    </div>
+  );
+};
 
-
-  export default CourseContent;
-  
+export default CourseContent;

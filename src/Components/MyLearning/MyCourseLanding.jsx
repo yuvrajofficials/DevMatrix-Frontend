@@ -2,22 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ReactPlayer from 'react-player';
-
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const MyCourseLanding = () => {
     const [course, setCompleteCourseDetails] = useState({});
     const [expandedModule, setExpandedModule] = useState(null);
     const [currentVideo, setCurrentVideo] = useState(null);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const { courseId } = useParams();
-
+   
     useEffect(() => {
         const getCourseDetails = async () => {
             try {
+                console.log(courseId);
                 const getLoginInfo = JSON.parse(localStorage.getItem("setLoginInfo"));
                 const accessToken = getLoginInfo?.token;
 
                 const response = await axios.post(
-                    `${process.env.REACT_APP_BACKEND_URL}/api/v1/users/mylearning/get-course-details`,
+                    `${BACKEND_URI}/api/v1/users/mylearning/get-course-details`,
                     { courseId },
                     {
                         headers: {
@@ -25,6 +26,7 @@ const MyCourseLanding = () => {
                         }
                     }
                 );
+                console.log(response.data)
                 setCompleteCourseDetails(response.data.data[0]);
             } catch (error) {
                 alert('Failed to fetch course details.');
@@ -86,12 +88,12 @@ const MyCourseLanding = () => {
             />
 
             {/* Main video player */}
-            <div className="flex-1 bg-gray-900 text-white p-6 flex flex-col overflow-y-auto">
+            <div className="flex-1 bg-blue-100 text-white p-6 flex flex-col overflow-y-auto">
                 <Player currentVideo={currentVideo} />
                 {currentVideo && (
-                    <div className="mt-4 p-4 bg-gray-800 rounded-lg shadow-xl  ">
-                        <h2 className="text-xl font-bold mb-2">{currentVideo.title}</h2>
-                        <p className="text-gray-400 text-sm">{currentVideo.description}</p>
+                    <div className="mt-4 p-4 bg-gray-50 rounded-lg ">
+                        <h2 className="text-2xl text-blue-600 font-bold mb-2">{currentVideo.title}</h2>
+                        <p className="text-gray-500 text-sm">{currentVideo.description}</p>
                     </div>
                 )}
             </div>
@@ -102,20 +104,21 @@ const MyCourseLanding = () => {
 const ModulesList = ({ modules, courseTitle, expandedModule, toggleModule, onVideoSelect, isSidebarOpen, toggleSidebar }) => {
     return (
         <div 
-            className={`fixed z-50 inset-y-0 left-0 w-64 bg-white p-4 shadow-lg transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 lg:relative lg:translate-x-0 lg:w-1/4 lg:block overflow-auto`}
+            className={`fixed z-50 inset-y-0 left-0 w-64 shadow-lg transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 lg:relative lg:translate-x-0 lg:w-1/4 lg:block overflow-auto`}
         >
-            <h1 className="text-2xl font-bold mb-6 text-gray-700">{courseTitle}</h1>
+            <h1 className="text-2xl font-bold mb-6  p-2 text-gray-100 bg-blue-600">{courseTitle}</h1>
             {modules && modules.map((module, index) => (
                 <div key={index} className="mb-3">
                     <div 
-                        className="flex justify-between items-center p-2 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition-all duration-300"
+                        className="flex justify-between items-center p-1  rounded-lg cursor-pointer hover:text-blue-600 transition-all duration-300"
                         onClick={() => toggleModule(index)}
                     >
-                        <h2 className="font-semibold text-md text-gray-800">{module.module.title}</h2>
-                        <span className="text-2xl text-gray-500">{expandedModule === index ? '-' : '+'}</span>
+                        <h2 className=" text-md text-gray-800  hover:text-blue-600">{module.module.title}</h2>
+                        <span className="text-2xl text-gray-500  hover:text-blue-600">{expandedModule === index ? '-' : '+'}</span>
                     </div>
+                     
                     {expandedModule === index && (
-                        <div className="mt-2 bg-gray-50 p-2 rounded-lg shadow-lg">
+                        <div className="mt-2  px-2 rounded-lg ">
                             {module.videos.map((video) => (
                                 <div 
                                     key={video._id} 
@@ -130,6 +133,7 @@ const ModulesList = ({ modules, courseTitle, expandedModule, toggleModule, onVid
                             ))}
                         </div>
                     )}
+                            <div className='w-full h-[1px] bg-gray-200'></div>
                 </div>
             ))}
         </div>
@@ -138,7 +142,7 @@ const ModulesList = ({ modules, courseTitle, expandedModule, toggleModule, onVid
 
 const Player = ({ currentVideo }) => {
     return (
-        <div className="flex flex-col items-center justify-center flex-grow bg-gray-900 ">
+        <div className="flex flex-col items-center justify-center flex-grow bg-blue-50 ">
             {currentVideo ? (
                 <div className="w-full">
                     <ReactPlayer 
@@ -148,7 +152,7 @@ const Player = ({ currentVideo }) => {
                         volume={null}
                         width="100%"
                         height="100%"
-                        className="react-player"
+                        className="react-player rounded-lg"
                     />
                 </div>
             ) : (

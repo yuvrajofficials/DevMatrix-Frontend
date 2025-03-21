@@ -1,121 +1,139 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Headers from '../Utility/utils1/Headers';
-import Footer from '../Utility/utils1/Footers';
-
-import LoginImage from '../../Images/LoginImage.jpg';
-import { useNavigate, NavLink } from "react-router-dom"; // Assuming you're using React Router
-import JoditEditor from "jodit-react";
-import 'react-quill/dist/quill.snow.css'; // Import Quill styles
-
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Headers from "../Utility/utils1/Headers";
+import Footer from "../Utility/utils1/Footers";
+import { useNavigate } from "react-router-dom"; // Assuming you're using React Router
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 
 const ContactSection = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [subject, setSubject] = useState('');
-  const [message, setMessage] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
 
 
-  const handleChange = (value) => {
-    setMessage(value);
-  };
-
-
+      const [loginData, setLoginData] = useState({});
+    useEffect(() => {
+      const accessToken = localStorage.getItem("accessToken");
+      const loginInfo = JSON.parse(localStorage.getItem("setLoginInfo"));
+  
+      if (!accessToken || !loginInfo) {
+      } else {
+        setLoginData(loginInfo);
+        console.log(loginData)
+      }
+    }, []);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = { name, email, subject, message };
-    const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
+    if (!name || !email || !subject || !message) {
+      toast.error("Please fill out all fields before submitting", { position: "bottom-right" });
+      return;
+    }
+   const from = loginData.userId;
+   const to = 'admin';
+    const formData = {from,to,name, email, subject, message };
+
     try {
-      const response = await axios.post(`${backendUrl}/api/v1/users/save-notification`, { name, email, subject, message });
-      toast.success("We got your message ", { position: "bottom-right" });
+      await axios.post(`${BACKEND_URI}/api/v1/users/save-notification`, formData);
+      toast.success("We got your message!", { position: "bottom-right" });
       handleReset();
     } catch (error) {
-      toast.error("Problem in message please reattempt after a few moments", { position: "bottom-right" });
+      toast.error("Problem in message, please try again later.", { position: "bottom-right" });
       console.error(error);
     }
   };
 
-  const handleReset = (e) => {
-    setName('');
-    setEmail('');
-    setSubject('');
-    setMessage('');
-
-  }
+  const handleReset = () => {
+    setName("");
+    setEmail("");
+    setSubject("");
+    setMessage("");
+  };
 
   return (
     <>
-      <div className="bg-white ">
+      <div className="bg-white min-h-screen">
         <Headers />
-        <div className="min-h-screen p-2 flex">
-          <div className="flex-1 flex items-center justify-center">
-            <div className="w-full max-w-md mx-auto">
 
-              <h1 className="text-6xl text-gray-700 font-bold mb-4 lg:mb-0 lg:text-left">Contact Us</h1>
-              <h2 className="text-3xl" > You can connect us directly through email at <span className="text-[#01C567]">devmatrix@email.com </span> </h2>
-            </div>
+        <div className="min-h-screen px-6 sm:px-12 py-12 flex flex-col md:flex-row items-center justify-center">
+          {/* Left Section: Contact Details */}
+          <div className="md:w-1/2 flex flex-col items-center text-center md:text-left mb-12 md:mb-0 md:pr-12">
+            <h1 className="text-4xl sm:text-6xl font-bold text-blue-500 mb-6">Contact Us</h1>
+            <p className="text-lg sm:text-2xl text-gray-700">
+              Have questions or need assistance? Reach out to us directly at{" "}
+              <span className="text-blue-600 font-semibold">teamdevmatrix@gmail.com</span>.
+            </p>
           </div>
-          <div className="flex-1 flex items-center justify-center">
-            <form className="w-full max-w-md border-2 border-slate-400  bg-[#002333] rounded-lg p-4" onSubmit={handleSubmit}>
 
+          {/* Right Section: Contact Form */}
+          <div className="md:w-1/2 w-full max-w-lg bg-gradient-to-tr from-blue-50 to-blue-200 p-8 rounded-lg shadow-md border border-blue-300">
+            <h2 className="text-3xl font-bold text-blue-600 text-center mb-6">Get in Touch</h2>
+            <form onSubmit={handleSubmit}>
+              {/* Name Input */}
               <input
                 type="text"
                 name="name"
                 value={name}
-                onChange={(e) => { setName(e.target.value) }}
-                placeholder="Enter Your Name"
-                className="w-full h-12 pl-4 pr-12 py-2 my-2 bg-[#465e68] text-white rounded-md focus:outline-none focus:border-blue-500"
-
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your Name"
+                className="w-full h-12 px-4 py-2 my-2 bg-white text-gray-800 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
+
+              {/* Email Input */}
               <input
                 type="email"
                 name="email"
                 value={email}
-                onChange={(e) => { setEmail(e.target.value) }}
-                placeholder="name@mail.com"
-                className="w-full h-12 pl-4 pr-12 py-2  my-2 bg-[#465e68] text-white rounded-md focus:outline-none focus:border-blue-500"
-
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Your Email"
+                className="w-full h-12 px-4 py-2 my-2 bg-white text-gray-800 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
+
+              {/* Subject Input */}
               <input
                 type="text"
-                name='subject'
+                name="subject"
                 value={subject}
-                onChange={(e) => { setSubject(e.target.value) }}
-                placeholder="I am interested ..."
-                className="w-full h-12 pl-4 pr-12 py-2  my-2 bg-[#465e68] text-white rounded-md focus:outline-none focus:border-blue-500"
-
+                onChange={(e) => setSubject(e.target.value)}
+                placeholder="Subject"
+                className="w-full h-12 px-4 py-2 my-2 bg-white text-gray-800 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
+
+              {/* Message Input */}
               <textarea
                 name="message"
                 value={message}
-                onChange={(e) => { setMessage(e.target.value) }}
+                onChange={(e) => setMessage(e.target.value)}
                 rows={5}
-                placeholder="Hello, I am ..."
-                className="w-full h-auto pl-4 pr-12 py-2  my-3 bg-[#465e68] text-white rounded-md focus:outline-none focus:border-blue-500"
-
+                placeholder="Write your message here..."
+                className="w-full px-4 py-2 my-3 bg-white text-gray-800 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
-              {/* <JoditEditor
-                value={message}
-                onChange={(newContent) => setMessage(newContent)}
-                className="mb-4"
-              /> */}
-              <div className="flex justify-center">
-                <button type="button" onClick={handleReset} theme="snow" className="w-32 h-8 text-sm font-semibold bg-white text-black border-2 border-slate-300 rounded mr-4">
+
+              {/* Buttons */}
+              <div className="flex flex-col sm:flex-row justify-center mt-6 gap-4">
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="w-full sm:w-48 py-2 border-2 border-blue-500 text-blue-500 bg-white rounded-md font-semibold hover:bg-blue-50 transition duration-300"
+                >
                   Reset
                 </button>
-
-                <button type="submit" className="w-32 h-8 text-sm font-semibold bg-[#01ff85] text-black border-2 border-slate-300 rounded" >
+                <button
+                  type="submit"
+                  className="w-full sm:w-48 py-2 bg-gradient-to-r from-blue-400 to-blue-500 text-white rounded-md font-semibold hover:bg-blue-600 transition duration-300"
+                >
                   Submit
                 </button>
               </div>
-
             </form>
           </div>
         </div>
@@ -127,40 +145,4 @@ const ContactSection = () => {
   );
 };
 
-const modules = {
-  toolbar: [
-    [{ header: '1' }, { header: '2' }, { font: [] }],
-    [{ size: [] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [
-      { list: 'ordered' },
-      { list: 'bullet' },
-      { indent: '-1' },
-      { indent: '+1' },
-    ],
-    ['link', 'image', 'video'],
-    ['clean'],
-  ],
-  clipboard: {
-    // toggle to add extra line breaks when pasting HTML:
-    matchVisual: false,
-  },
-}
-
-const formats = [
-  'header',
-  'font',
-  'size',
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'blockquote',
-  'list',
-  'bullet',
-  'indent',
-  'link',
-  'image',
-  'video',
-]
 export default ContactSection;

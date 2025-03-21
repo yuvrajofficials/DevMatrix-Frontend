@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import AuthCheck from "./AuthCheck";
 import DevMatrix_Logo from "../../../Images/DevMatrix_Logo.png";
@@ -15,6 +15,7 @@ const Headers = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  const dropdownRef = useRef(null); // Ref for the dropdown
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,6 +28,19 @@ const Headers = () => {
       setLoginData(loginInfo);
       setLoginStatus(true);
     }
+
+    // Add event listener to close dropdown when clicking outside
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false); // Close the dropdown if clicked outside
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -43,9 +57,7 @@ const Headers = () => {
       case 3:
         navigate("/blogs");
         break;
-      case 4:
-        navigate("/about");
-        break;
+     
       case 5:
         navigate("/contact");
         break;
@@ -56,177 +68,169 @@ const Headers = () => {
   };
 
   return (
-    <header>
-      <div className="flex justify-between w-full bg-[#002333] h-20 text-white">
+    <header className="bg-blue-50 border-blue-200 border-b-[1px] text-[#304261]">
+      <div className="container mx-auto flex justify-between items-center h-20 px-4 md:px-8">
         {/* Logo Section */}
-        <div className="flex-none w-1/5 flex justify-center items-center">
-          <img src={DevMatrix_Logo} className="h-12" alt="Logo" />
+        <div className="flex items-center">
+          <p className="text-gray-800 font-bold text-2xl">
+            Dev<span className="text-blue-600 font-bold text-2xl">Matrix</span>
+          </p>
+        </div>
+        {/* Desktop Navigation Links */}
+        <div className="hidden xl:flex items-center space-x-8">
+        {!isLoggedIn && (
+          <ul className="flex items-center space-x-6">
+            <li
+              onClick={() => navigateTo(1)}
+              className="cursor-pointer hover:text-blue-600 text-sm font-medium"
+            >
+              Home
+            </li>
+            <li
+              onClick={() => navigateTo(2)}
+              className="cursor-pointer hover:text-blue-600 text-sm font-medium"
+            >
+              Courses
+            </li>
+            <li
+              onClick={() => navigateTo(3)}
+              className="cursor-pointer hover:text-blue-600 text-sm font-medium"
+            >
+              Blogs
+            </li>
+            {/* <li
+              onClick={() => navigateTo(4)}
+              className="cursor-pointer hover:text-blue-600 text-sm font-medium"
+            >
+              About
+            </li> */}
+            <li
+              onClick={() => navigateTo(5)}
+              className="cursor-pointer hover:text-blue-600 text-sm font-medium"
+            >
+              Contact
+            </li>
+          </ul>
+        )
+        }
+          {/* Search Input */}
+          {isLoggedIn && (
+            <div className="relative">
+              <input
+                type="search"
+                className="w-96 h-10 px-3 rounded-md text-[#304261] border border-[#304261] placeholder:text-sm"
+                placeholder="Search anything..."
+              />
+            </div>
+          )}
         </div>
 
-        {/* Navigation Links */}
-        <div className="flex-auto w-3/5 flex justify-center items-center">
+        {/* User & Auth Section */}
+        <div className="hidden xl:flex items-center space-x-6">
           {isLoggedIn ? (
             <>
-              <div className="flex justify-between w-full">
-                {/* Search and Links */}
-                <div className="hidden xl:flex justify-center items-center">
-                  <div className="flex flex-row items-center">
-                    {/* Search Bar */}
-                    <div className="flex-none px-4 m-2">
-                      <input
-                        type="search"
-                        className="w-96 h-10 px-2 rounded-md text-[#002333] placeholder:text-sm"
-                        placeholder="Search anything..."
-                      />
-                    </div>
-
-                    {/* Dropdown Menu */}
-                    <div className="relative">
-                      <button
-                        onClick={toggleDropdown}
-                        className="flex items-center py-4 my-2 text-sm font-medium"
-                      >
-                        <GrResources className="text-white w-4 h-4 mx-1" />
-                        Resources
-                      </button>
-
-                      {dropdownOpen && (
-                        <div className="absolute right-0 mt-2 w-48 z-10 bg-[#002333] font-bold border border-gray-200 rounded-md shadow-lg">
-                          <p
-                            onClick={() => navigateTo(2)}
-                            className="ulListItems flex items-center px-4 py-2 text-sm hover:bg-[#01ff85] hover:text-[#002333] cursor-pointer"
-                          >
-                            <RiFolderVideoFill className="mx-2" /> Courses
-                          </p>
-                          <p
-                            onClick={() => navigateTo(3)}
-                            className="ulListItems flex items-center px-4 py-2 text-sm hover:bg-[#01ff85] hover:text-[#002333] cursor-pointer"
-                          >
-                            <FaNewspaper className="mx-2" /> Blogs
-                          </p>
-                          <p
-                            onClick={() => navigateTo(4)}
-                            className="ulListItems flex items-center px-4 py-2 text-sm hover:bg-[#01ff85] hover:text-[#002333] cursor-pointer"
-                          >
-                            <CgWebsite className="mx-2" /> About
-                          </p>
-                          <p
-                            onClick={() => navigateTo(5)}
-                            className="ulListItems flex items-center px-4 py-2 text-sm hover:bg-[#01ff85] hover:text-[#002333] cursor-pointer"
-                          >
-                            <MdContactMail className="mx-2" /> Contact
-                          </p>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Purchase and Cart Links */}
-                    <NavLink to="/user/mylearning" className="text-sm flex mx-2">
-                      <FaFolderOpen className="text-white mx-1 w-4 h-4" /> My Learning
-                    </NavLink>
-                    <NavLink to="/user/addtocart" className="text-sm flex mx-2">
-                      <FaCartShopping className="text-white mx-1 w-4 h-4" /> Cart
-                    </NavLink>
+              {/* Dropdown Menu */}
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={toggleDropdown}
+                  className="flex items-center text-sm font-medium"
+                >
+                  <GrResources className="text-blue-600 w-5 h-5 mr-1" />
+                  <span className="text-[#304261]">Resources</span>
+                </button>
+                {dropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 text-blue-600 bg-white font-bold rounded-md shadow-lg">
+                    <p
+                      onClick={() => navigateTo(2)}
+                      className="flex items-center px-4 py-2 hover:text-blue-500  cursor-pointer"
+                    >
+                      <RiFolderVideoFill className="mx-2" /> Courses
+                    </p>
+                    <p
+                      onClick={() => navigateTo(3)}
+                      className="flex items-center px-4 py-2 hover:text-blue-500  cursor-pointer"
+                    >
+                      <FaNewspaper className="mx-2" /> Blogs
+                    </p>
+                    {/* <p
+                      onClick={() => navigateTo(4)}
+                      className="flex items-center px-4 py-2 hover:text-blue-500  cursor-pointer"
+                    >
+                      <CgWebsite className="mx-2" /> About
+                    </p> */}
+                    <p
+                      onClick={() => navigateTo(5)}
+                      className="flex items-center px-4 py-2 hover:text-blue-500  cursor-pointer"
+                    >
+                      <MdContactMail className="mx-2" /> Contact
+                    </p>
                   </div>
-                </div>
-
-                {/* Auth Check */}
-                <div className="hidden xl:flex items-center px-2">
-                  <AuthCheck />
-                </div>
+                )}
               </div>
+
+              {/* My Learning */}
+              <NavLink to="/user/mylearning" className="flex items-center">
+                <FaFolderOpen className="text-blue-600 w-4 h-4 mx-1" /> My Learning
+              </NavLink>
+
+              {/* Cart */}
+              <NavLink to="/user/mycart" className="flex items-center">
+                <FaCartShopping className="text-blue-600 w-4 h-4 mx-1" /> Cart
+              </NavLink>
+
+              <AuthCheck />
             </>
           ) : (
-            <>
-              <div className="hidden xl:flex">
-                <ul className="flex justify-center">
-                  <li
-                    onClick={() => navigateTo(1)}
-                    className="ulListItems w-24 p-4 m-2 text-sm font-medium hover:cursor-pointer"
-                  >
-                    Home
-                  </li>
-                  <li
-                    onClick={() => navigateTo(2)}
-                    className="ulListItems w-24 p-4 m-2 text-sm font-medium hover:cursor-pointer"
-                  >
-                    Courses
-                  </li>
-                  <li
-                    onClick={() => navigateTo(3)}
-                    className="ulListItems w-24 p-4 m-2 text-sm font-medium hover:cursor-pointer"
-                  >
-                    Blogs
-                  </li>
-                  <li
-                    onClick={() => navigateTo(4)}
-                    className="ulListItems w-24 p-4 m-2 text-sm font-medium hover:cursor-pointer"
-                  >
-                    About
-                  </li>
-                  <li
-                    onClick={() => navigateTo(5)}
-                    className="ulListItems w-24 p-4 m-2 text-sm font-medium hover:cursor-pointer"
-                  >
-                    Contact
-                  </li>
-                </ul>
-              </div>
-              <div className="hidden xl:flex justify-end items-center">
-                <AuthCheck />
-              </div>
-            </>
+            <AuthCheck />
           )}
         </div>
 
         {/* Mobile Menu Icon */}
-        <div className="flex-none w-1/5 flex justify-end items-center pr-4 xl:hidden">
-          <button onClick={toggleMenu} className="text-white">
-            {isMenuOpen ? <IoClose size={24} /> : <IoMenu size={24} />}
+        <div className="xl:hidden flex items-center">
+          <button onClick={toggleMenu} className="text-[#304261]">
+            {isMenuOpen ? <IoClose size={28} /> : <IoMenu size={28} />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="w-full bg-[#002333] text-white xl:hidden">
-          <div className="flex flex-col items-center">
-            <ul className="w-full text-center">
-              <li
-                onClick={() => navigateTo(1)}
-                className="ulListItems w-full p-2 text-sm font-medium hover:cursor-pointer"
-              >
-                Home
-              </li>
-              <li
-                onClick={() => navigateTo(2)}
-                className="ulListItems w-full p-2 text-sm font-medium hover:cursor-pointer"
-              >
-                Courses
-              </li>
-              <li
-                onClick={() => navigateTo(3)}
-                className="ulListItems w-full p-2 text-sm font-medium hover:cursor-pointer"
-              >
-                Blogs
-              </li>
-              <li
-                onClick={() => navigateTo(4)}
-                className="ulListItems w-full p-2 text-sm font-medium hover:cursor-pointer"
-              >
-                About
-              </li>
-              <li
-                onClick={() => navigateTo(5)}
-                className="ulListItems w-full p-2 text-sm font-medium hover:cursor-pointer"
-              >
-                Contact
-              </li>
-            </ul>
-            <div className="flex justify-center py-2">
+        <div className="xl:hidden bg-white text-[#304261]">
+          <ul className="flex flex-col items-center space-y-2 py-4">
+            <li
+              onClick={() => navigateTo(1)}
+              className="cursor-pointer p-2 w-full text-center hover:bg-blue-600 hover:text-white"
+            >
+              Home
+            </li>
+            <li
+              onClick={() => navigateTo(2)}
+              className="cursor-pointer p-2 w-full text-center hover:bg-blue-600 hover:text-white"
+            >
+              Courses
+            </li>
+            <li
+              onClick={() => navigateTo(3)}
+              className="cursor-pointer p-2 w-full text-center hover:bg-blue-600 hover:text-white"
+            >
+              Blogs
+            </li>
+            {/* <li
+              onClick={() => navigateTo(4)}
+              className="cursor-pointer p-2 w-full text-center hover:bg-blue-600 hover:text-white"
+            >
+              About
+            </li> */}
+            <li
+              onClick={() => navigateTo(5)}
+              className="cursor-pointer p-2 w-full text-center hover:bg-blue-600 hover:text-white"
+            >
+              Contact
+            </li>
+            <div className="py-2">
               <AuthCheck />
             </div>
-          </div>
+          </ul>
         </div>
       )}
     </header>

@@ -104,9 +104,9 @@ const TeacherCreateBlog = () => {
   return (
     <>
         <TeacherBlogManagement>
+        <section className="p-4 bg-blue-50  rounded-xl min-h-screen  border-1 border-blue-400">
             
-    <div className="container mx-auto py-10 px-4 md:px-8">
-      <h2 className="text-2xl font-semibold mb-6">Create Blog</h2>
+    <div className="container mx-auto  md:px-8">
       <form className="bg-white p-6 rounded-lg shadow-lg">
         <JoditEditor
           value={blogData.content}
@@ -171,18 +171,22 @@ const TeacherCreateBlog = () => {
         {error && <p className="text-red-500">{error}</p>}
         {success && <p className="text-green-500">{success}</p>}
 
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-between mt-4">
           <button
             type="button"
             onClick={handleReset}
-            className="w-full mx-2 h-10 text-md font-semibold bg-[#002333] text-white rounded-sm hover:bg-[#00424e] transition duration-300"
+            // className="w-full mx-2 h-10 text-md font-semibold bg-[#304261] text-white rounded-sm hover:bg-[#415f64] transition duration-300"
+            className="w-1/2 py-3 text-lg mr-4 font-medium bg-gray-700 text-white rounded-lg hover:bg-gray-900 transition duration-300"
+                    
           >
             Reset
           </button>
           <button
             type="button"
             onClick={handleSubmit}
-            className={`w-full mx-2 h-10 text-md font-semibold ${loading ? 'bg-gray-500' : 'bg-[#01ff85] text-[#002333]'} border border-gray-300 rounded-sm transition duration-300`}
+            // className={`w-full mx-2 h-10 text-md font-semibold ${loading ? 'bg-white' : 'bg-blue-500  text-white'} border border-gray-300 rounded-lg transition duration-300`}
+            className="w-1/2 py-3 text-lg font-medium bg-blue-500 text-white rounded-lg hover:bg-orange-600 transition duration-300"
+               
             disabled={loading}
           >
             {loading ? 'Creating...' : 'Create'}
@@ -191,6 +195,7 @@ const TeacherCreateBlog = () => {
       </form>
     </div>
 
+    </section>
     </TeacherBlogManagement>
     </>
   );

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import DashboardHeader from './DashboardHeader';
+import DashboardHeader from './UserDashboardHeader';
 
 const UserDashboard = () => {
   const navigate = useNavigate();

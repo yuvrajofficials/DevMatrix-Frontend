@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URL;
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import JoditEditor from "jodit-react";
@@ -17,8 +18,8 @@ const CreateCourse = () => {
   const accessToken = localStorage.getItem('accessToken');
   const [thumbnail, setThumbnail] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [description,setDescription] = useState('');
-  const [price,setPrice] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
 
   useEffect(() => {
     const getLoginInfo = JSON.parse(localStorage.getItem("setLoginInfo"));
@@ -69,11 +70,11 @@ const CreateCourse = () => {
     }
   };
 
-  
+
   const handleChange = (value) => {
     setDescription(value);
   };
-  
+
 
 
   const handleSubmit = async (e) => {
@@ -118,65 +119,109 @@ const CreateCourse = () => {
   return (
     <>
       <TeacherCourseManagement>
-        <section className="flex bg-[#C5C5C6] justify-center items-center">
-          <div className="divide-y divide-gray-200 w-2/3 rounded-lg  my-4  ">
-          {loading ? (
-                  <div className="flex justify-center items-center h-full">
-                    <div className="spinner-border text-primary" role="status">
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
-                    <span className="ml-2">Creating your video Course <b>{title}</b>, please wait...</span>
-                  </div>
-                ) : (
-                <form className="p-2 w-4/5 bg-[#EBECEC] " onSubmit={handleSubmit}>
-                  <div className="m-4 p-1">
-                    <label className="block font-semibold p-2">Title</label>
-                    <input
-                      name="title"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      className="border-1 block border-gray-200 p-2 rounded w-full"
-                      placeholder="Title"
-                      required
-                    />
-                    <label className="block  font-semibold  p-2">Creator</label>
-                    <input
-                      name="creator"
-                      value={creator}
-                      onChange={(e) => setCreator(e.target.value)}
-                      className="block w-full  border-1 border-gray-200 p-2 rounded"
-                      placeholder="Creator"
-                      required
-                    />
-                    <label className="block  font-semibold  p-2">Price</label>
-                    <input
-                      name="price"
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
-                      className="block w-full border-1 border-gray-200 p-2 rounded"
-                      placeholder="Price of Course"
-                      required
-                    />
-                    <label className="block  font-semibold mt-2 p-2">Thumbnail</label>
-                    <input type="file" name="resource" onChange={(e) => setThumbnail(e.target.files[0])} />
-                    <label className="block  font-semibold mt-2 p-2">Description <span className="text-red-500 font-medium text-sm">(click on <AiOutlineFullscreen className="inline" /> to open in full screen)</span></label>
+        <section className='p-4 bg-blue-50  rounded-xl min-h-screen  border-1 border-blue-400'>
+          <div className="flex justify-center">
+            {loading ? (
+              <div className="flex justify-center items-center h-full">
+                <div className="spinner-border text-primary" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+                <span className="ml-2">Creating your video Course <b>{title}</b>, please wait...</span>
+              </div>
+            ) : (
+              <form className="w-full bg-white p-6 rounded-lg shadow-lg" onSubmit={handleSubmit}>
+                {/* Title */}
+                <h2 className="text-2xl  border-b border-blue-500 font-semibold text-center text-gray-800 mb-6 pb-4">Create a New Course</h2>
 
-                    <JoditEditor
-                value={description}
-                onChange={(newContent) => setDescription(newContent)}
-                className="mb-4"
-              />
-                  </div>
-                  <div className="flex justify-center">
-                    <button type="button" onClick={handleReset} className="w-full mx-4 h-10 text-md font-semibold bg-[#002333] text-white rounded-sm mr-4">
-                      Reset
-                    </button>
-                    <button type="submit" className="w-full mx-4 h-10 text-md font-semibold bg-[#01ff85] text-[#002333] border border-gray-300 rounded-sm">
-                      Create
-                    </button>
-                  </div>
-                </form>
-              )}
+
+                {/* Course Title */}
+                <div className="mb-4">
+                  <label className="block text-gray-700 font-medium mb-1">Course Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    placeholder="Enter course title"
+                    required
+                  />
+                </div>
+<div className="lg:flex justify-between sm:block md:block  lg:space-x-4">
+
+                {/* Creator */}
+                <div className="mb-4 lg:w-1/2 ">
+                  <label className="block text-gray-700 font-medium mb-1">Creator</label>
+                  <input
+                    type="text"
+                    name="creator"
+                    value={creator}
+                    onChange={(e) => setCreator(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    placeholder="Enter creator name"
+                    required
+                  />
+                </div>
+
+                {/* Price */}
+                <div className="mb-4  lg:w-1/2">
+                  <label className="block text-gray-700 font-medium mb-1">Price</label>
+                  <input
+                    type="number"
+                    name="price"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    placeholder="Enter price in USD"
+                    required
+                  />
+                </div>
+
+</div>
+                {/* Thumbnail Upload */}
+                <div className="mb-4">
+                  <label className="block text-gray-700 font-medium mb-1">Thumbnail</label>
+                  <input
+                    type="file"
+                    name="thumbnail"
+                    onChange={(e) => setThumbnail(e.target.files[0])}
+                    className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 cursor-pointer file:cursor-pointer file:bg-blue-500 file:border-none file:text-white file:px-3 file:py-2 file:rounded-md"
+                    required
+                  />
+                </div>
+
+                {/* Description Editor */}
+                <div className="mb-6">
+                  <label className="block text-gray-700 font-medium mb-1 flex items-center gap-2">
+                    Description
+                    <span className="text-sm text-gray-500">(Click the fullscreen icon <AiOutlineFullscreen className="inline text-orange-500" /> for better editing)</span>
+                  </label>
+                  <JoditEditor
+                    value={description}
+                    onChange={(newContent) => setDescription(newContent)}
+                    className="w-full border border-gray-300 rounded-lg p-3"
+                  />
+                </div>
+
+                {/* Buttons */}
+                <div className="flex gap-4">
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="w-1/2 py-3 text-lg font-medium bg-gray-700 text-white rounded-lg hover:bg-gray-900 transition duration-300"
+                  >
+                    Reset
+                  </button>
+                  <button
+                    type="submit"
+                    className="w-1/2 py-3 text-lg font-medium bg-blue-500 text-white rounded-lg hover:bg-orange-600 transition duration-300"
+                  >
+                    Create
+                  </button>
+                </div>
+              </form>
+
+            )}
           </div>
           <ToastContainer />
         </section>

@@ -1,121 +1,71 @@
-import React,{Children, useState} from 'react'
-import TeacherDashboardHeader from './TeacherDashboardHeader'
+import React from 'react';
+import TeacherDashboardHeader from './TeacherDashboardHeader';
 import { NavLink } from 'react-router-dom';
-import { IoSettings,IoCloseCircleSharp  } from 'react-icons/io5';
-import { FaCirclePlus } from "react-icons/fa6";
-import { FaEdit, FaUpload  } from "react-icons/fa";
+import { IoSettings } from 'react-icons/io5';
+import {  FaEdit, FaUpload } from "react-icons/fa";
 import { RiGalleryView2 } from 'react-icons/ri';
-import { MdCreateNewFolder } from 'react-icons/md';
+import { MdCreateNewFolder, MdCloudUpload } from 'react-icons/md';
 import { VscFileSubmodule } from 'react-icons/vsc';
 
-const TeacherCourseManagement = ({children}) => {
+const TeacherCourseManagement = ({ children }) => {
+  return (
+    <>
+      <TeacherDashboardHeader>
+        <div className=''>
+          <>
+            <ManagementComponent />
+            <div>
+              {children}
+            </div>
+          </>
+        </div>
+      </TeacherDashboardHeader>
 
-  let isOpen = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  let isToggleOpen = () =>{
+    </>
+  );
+};
 
-    setIsSidebarOpen(!isSidebarOpen);
-  }
-
-return (
-<>
-
-<TeacherDashboardHeader>
-    <div>
-      {children || <>
-  <h2 className="text-[#01C567] text-3xl break-words w-1/2">
-    Creating a Legacy Together
-  </h2>
-  <p className="text-xl break-words w-2/3 mt-4">
-    "Every course you create is a step towards building a lasting legacy in education. 
-    We're excited to provide you with the tools and support you need to develop and share 
-    your expertise. Together, we're shaping the future of learning."
-    <i ><p className='text-right text-[#01C567'>-Yuvraj</p></i>
-  </p>
-
-</>
-
-      } 
-
-    </div>
-  <button className='fixed top-24 right-0 w-auto' onClick={isToggleOpen}>
-    {isSidebarOpen? <CourseView/>:<ManagementComponent/>}
-  </button>
-
- 
-</TeacherDashboardHeader>
-
-
-</> 
- )
-}
-
-export default TeacherCourseManagement
+export default TeacherCourseManagement;
 
 const CourseView = () => {
   return (
-    <div className='flex justify-content-center '>
-    <FaCirclePlus className='w-12 h-12 block text-[#002333] '/>
-    
-      
+    <div>
+      <FaEdit />
+      <h3>Welcome to Course Management!</h3>
     </div>
-  )
-}
-
+  );
+};
 
 const ManagementComponent = () => {
-  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
-  
-  const toggleRightSidebar = () => {
-    setIsRightSidebarOpen(!isRightSidebarOpen);
-  };
-
+  const activeClasses = "flex items-center rounded-full space-x-2 p-2 m-2 text-blue-600"
   return (
     <div>
-       <aside className={`bg-[#002333] fixed top-20 right-0 w-48 h-[calc(100vh-5rem)] md:flex flex-col ${isRightSidebarOpen ? 'block' : 'hidden'} md:block z-0`}>
-            {/* Add content for the right sidebar here */}
-            <IoCloseCircleSharp className='w-8 h-8 flex text-white 'onClick={toggleRightSidebar}/>
-            <NavLink
-              to="/teacher/course-management/course-settings"
-              className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
-            >
-              <IoSettings className="h-6 w-6" /> <span className="p-1">Settings</span>
-            </NavLink>
-            <NavLink
-              to="/teacher/course-management/create-course"
-              className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
-            >
-              <MdCreateNewFolder  className="h-6 w-6" /> <span className="p-1">Create Course</span>
-            </NavLink>
-            <NavLink
-              to="/teacher/course-management/view-all-course"
-              className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
-            >
-              <RiGalleryView2 className="h-6 w-6" /> <span className="p-1">View All Course</span>
-            </NavLink>
-            <NavLink
-              to="/teacher/course-management/edit-course"
-              className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
-            >
-              <FaEdit className="h-6 w-6" /> <span className="p-1">Edit Course</span>
-            </NavLink>
-            <NavLink
-              to="/teacher/course-management/upload-video"
-              className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
-            >
-              <FaUpload className="h-6 w-6" /> <span className="p-1">Upload Video</span>
-            </NavLink>
-            <NavLink
-              to="/teacher/course-management/create-modules"
-              className={`my-1 text-white font-semibold w-full flex items-center h-10 py-4 px-2 text-sm rounded-md hover:bg-[#01ff85] hover:text-[#002333] `}
-            >
-              <VscFileSubmodule className="h-6 w-6" /> <span className="p-1">Create Module</span>
-            </NavLink>
-           
-            {/* You can add more items here as needed */}
-          </aside>
+      <div className='flex bg-white justify-between bg-white'>
+        <NavLink className={({ isActive }) => isActive ? `${activeClasses}` : "flex items-center rounded-full space-x-2 p-2 m-2"} to="/teacher/course-management/course-settings">
+          <IoSettings /> <span>Settings</span>
+        </NavLink>
+
+        <NavLink className={({ isActive }) => isActive ? `${activeClasses}` : "flex items-center rounded-full space-x-2 p-2 m-2"} to="/teacher/course-management/create-course">
+          <MdCreateNewFolder /> <span>Create Course</span>
+          </NavLink>
+
+
+        <NavLink className={({ isActive }) => isActive ? `${activeClasses}` : "flex items-center rounded-full space-x-2 p-2 m-2"} to="/teacher/course-management/view-all-course">
+          <RiGalleryView2 /> <span>View All Course</span>
+        </NavLink>
+
+        {/* <NavLink className={({ isActive }) => isActive ? `${activeClasses}` : "flex items-center rounded-full space-x-2 p-2 m-2"} to="/teacher/course-management/edit-course">
+          <FaEdit /> <span>Edit Course</span>
+        </NavLink> */}
+
+        <NavLink className={({ isActive }) => isActive ? `${activeClasses}` : "flex items-center rounded-full space-x-2 p-2 m-2"} to="/teacher/course-management/upload-video">
+          <FaUpload /> <span>Upload Video</span>
+        </NavLink>
+
+        <NavLink className={({ isActive }) => isActive ? `${activeClasses}` : "flex items-center rounded-full space-x-2 p-2 m-2"} to="/teacher/course-management/create-modules">
+          <VscFileSubmodule /> <span>Create Module</span>
+        </NavLink>
+      </div>
     </div>
-  )
-}
-
-
+  );
+};
